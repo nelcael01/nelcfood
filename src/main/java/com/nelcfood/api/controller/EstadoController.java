@@ -17,7 +17,9 @@ public class EstadoController {
     EstadoRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<Estado>> listar() {
+    public ResponseEntity listar() {
         return ResponseEntity.ok(repository.findAll());
     }
+
+
 }
