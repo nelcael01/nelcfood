@@ -2,6 +2,7 @@ package com.nelcfood.api.controller;
 
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.EstadoRepository;
+import com.nelcfood.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,10 @@ import java.util.List;
 @RequestMapping("/estados")
 public class EstadoController {
     @Autowired
-    EstadoRepository repository;
+    EstadoService service;
 
     @GetMapping
     public ResponseEntity listar() {
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok().body(service.listar());
     }
-
-
 }
