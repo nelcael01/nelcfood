@@ -3,7 +3,6 @@ package com.nelcfood.model.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Data
