@@ -6,6 +6,7 @@ import com.nelcfood.model.repository.CozinhaRepository;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class CozinhaService {
     public Optional<Cozinha> buscar(Long id) {
         Optional<Cozinha> cozinhaBuscada = repository.findById(id);
         if (cozinhaBuscada.isEmpty()) {
-            throw new RuntimeException("Id não encontrado na base de dados.");
+            throw new EmptyResultDataAccessException("Id não encontrado na base de dados.", 1);
         }
         return cozinhaBuscada;
     }
