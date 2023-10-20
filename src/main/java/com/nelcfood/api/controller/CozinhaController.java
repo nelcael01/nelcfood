@@ -1,9 +1,8 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cozinha;
-import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.service.CozinhaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ public class CozinhaController {
         try {
             Optional<Cozinha> cozinhaBuscada = cozinhaService.buscar(id);
             return ResponseEntity.ok(cozinhaBuscada);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -43,7 +42,7 @@ public class CozinhaController {
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
         try {
             return ResponseEntity.ok(cozinhaService.atualizar(id, cozinha));
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -55,7 +54,7 @@ public class CozinhaController {
             return ResponseEntity.noContent().build();
         } catch (EntitidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

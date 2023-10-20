@@ -1,6 +1,6 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.service.CidadeService;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class CidadeController {
         try {
             Optional<Cidade> cidadeBuscada = cidadeService.buscar(id);
             return ResponseEntity.ok(cidadeBuscada);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -37,7 +37,7 @@ public class CidadeController {
         try {
             Cidade cidadeAtualizada = cidadeService.atualizar(cidade, id);
             return ResponseEntity.ok(cidadeAtualizada);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -47,7 +47,7 @@ public class CidadeController {
         try {
             Cidade cidadeSalva = cidadeService.salvar(cidade);
             return ResponseEntity.status(HttpStatus.CREATED).body(cidadeSalva);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -57,7 +57,7 @@ public class CidadeController {
         try {
             cidadeService.deletar(id);
             return ResponseEntity.ok().build();
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
     }

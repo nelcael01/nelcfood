@@ -1,6 +1,6 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class RestauranteController {
         try {
             Optional<Restaurante> restauranteBuscado = restauranteService.buscar(id);
             return ResponseEntity.ok().body(restauranteBuscado);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -37,7 +37,7 @@ public class RestauranteController {
         try {
             Restaurante restauranteSalvo = restauranteService.salvar(restaurante);
             return ResponseEntity.status(HttpStatus.CREATED).body(restauranteSalvo);
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -46,7 +46,7 @@ public class RestauranteController {
     public ResponseEntity<?> atualizar(@RequestBody Restaurante restaurante, @PathVariable Long id) {
         try {
             return ResponseEntity.ok(restauranteService.atualizar(restaurante, id));
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -56,7 +56,7 @@ public class RestauranteController {
         try {
             restauranteService.deletar(id);
             return ResponseEntity.ok().build();
-        } catch (EntidadeNaoEncontrada e) {
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
     }

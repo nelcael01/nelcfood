@@ -1,6 +1,6 @@
 package com.nelcfood.service;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
@@ -26,7 +26,7 @@ public class CozinhaService {
     public Optional<Cozinha> buscar(Long id) {
         Optional<Cozinha> cozinhaBuscada = cozinhaRepository.findById(id);
         if (cozinhaBuscada.isEmpty()) {
-            throw new EntidadeNaoEncontrada("Cozinha não foi encontrado na base de dados.");
+            throw new EntidadeNaoEncontradaException("Cozinha não foi encontrado na base de dados.");
         }
         return cozinhaBuscada;
     }

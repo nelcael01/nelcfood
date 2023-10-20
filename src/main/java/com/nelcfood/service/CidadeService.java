@@ -1,6 +1,6 @@
 package com.nelcfood.service;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.model.repository.CidadeRepository;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class CidadeService {
     public Optional<Cidade> buscar(Long id) {
         Optional<Cidade> cidadeBuscada = cidadeRepository.findById(id);
         if (cidadeBuscada.isEmpty()) {
-            throw new EntidadeNaoEncontrada("Cidade não foi encontrado na base de dados.");
+            throw new EntidadeNaoEncontradaException("Cidade não foi encontrado na base de dados.");
         }
         return cidadeBuscada;
     }
@@ -44,4 +44,5 @@ public class CidadeService {
         buscar(id);
         cidadeRepository.deleteById(id);
     }
+
 }

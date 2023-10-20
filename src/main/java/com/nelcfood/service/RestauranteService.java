@@ -1,6 +1,6 @@
 package com.nelcfood.service;
 
-import com.nelcfood.exception.EntidadeNaoEncontrada;
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class RestauranteService {
     public Optional<Restaurante> buscar(Long id) {
         Optional<Restaurante> restaurateBuscado = restauranteRepository.findById(id);
         if (restaurateBuscado.isEmpty()) {
-            throw new EntidadeNaoEncontrada("Restaurante não foi encontrado na base de dados.");
+            throw new EntidadeNaoEncontradaException("Restaurante não foi encontrado na base de dados.");
         }
         return restaurateBuscado;
     }
