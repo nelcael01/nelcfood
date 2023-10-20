@@ -3,6 +3,7 @@ package com.nelcfood.api.controller;
 import com.nelcfood.exception.EntidadeNaoEncontrada;
 import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cozinha;
+import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.service.CozinhaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
