@@ -14,6 +14,7 @@ import java.util.Optional;
 public class CidadeService {
 
     CidadeRepository cidadeRepository;
+    EstadoService estadoService;
 
     public List<Cidade> listar() {
         return cidadeRepository.findAll();
@@ -28,13 +29,13 @@ public class CidadeService {
     }
 
     public Cidade salvar(Cidade cidade) {
-        //verificar se estado existe
+        estadoService.buscar(cidade.getEstado().getId());
         return cidadeRepository.save(cidade);
     }
 
     public Cidade atualizar(Cidade cidade, Long id) {
         buscar(id);
-        //verificar se estado existe
+        estadoService.buscar(cidade.getEstado().getId());
         cidade.setId(id);
         return cidadeRepository.save(cidade);
     }

@@ -1,7 +1,6 @@
 package com.nelcfood.api.controller;
 
 import com.nelcfood.exception.EntidadeNaoEncontrada;
-import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.service.CidadeService;
 import lombok.AllArgsConstructor;
@@ -40,18 +39,26 @@ public class CidadeController {
             return ResponseEntity.ok(cidadeAtualizada);
         } catch (EntidadeNaoEncontrada e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntitidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
     @PostMapping
     public ResponseEntity<?> salvar(@RequestBody Cidade cidade) {
         try {
-            Cidade cidadeAtualizada = cidadeService.salvar(cidade);
-            return ResponseEntity.status(HttpStatus.CREATED).body(cidadeAtualizada);
-        } catch (EntitidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            Cidade cidadeSalva = cidadeService.salvar(cidade);
+            return ResponseEntity.status(HttpStatus.CREATED).body(cidadeSalva);
+        } catch (EntidadeNaoEncontrada e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable Long id) {
+        try {
+            cidadeService.deletar(id);
+            return ResponseEntity.ok().build();
+        } catch (EntidadeNaoEncontrada e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }
