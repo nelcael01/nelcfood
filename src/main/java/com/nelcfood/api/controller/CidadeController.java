@@ -25,7 +25,7 @@ public class CidadeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable Long id) {
         try {
-            Optional<Cidade> cidadeBuscada = cidadeService.buscar(id);
+            Cidade cidadeBuscada = cidadeService.buscar(id);
             return ResponseEntity.ok(cidadeBuscada);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

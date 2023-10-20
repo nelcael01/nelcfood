@@ -20,12 +20,12 @@ public class CidadeService {
         return cidadeRepository.findAll();
     }
 
-    public Optional<Cidade> buscar(Long id) {
+    public Cidade buscar(Long id) {
         Optional<Cidade> cidadeBuscada = cidadeRepository.findById(id);
         if (cidadeBuscada.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Cidade não foi encontrado na base de dados.");
         }
-        return cidadeBuscada;
+        return cidadeBuscada.get();
     }
 
     public Cidade salvar(Cidade cidade) {

@@ -23,12 +23,12 @@ public class EstadoService {
         return estadoRepository.findAll();
     }
 
-    public Optional<Estado> buscar(Long id) {
+    public Estado buscar(Long id) {
         Optional<Estado> estadoEncontrado = estadoRepository.findById(id);
         if (estadoEncontrado.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Estado não foi encontrado na base de dados.");
         }
-        return estadoEncontrado;
+        return estadoEncontrado.get();
     }
 
     public Estado atualizar(Estado estado, Long id) {

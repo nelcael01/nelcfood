@@ -23,12 +23,12 @@ public class CozinhaService {
         return cozinhaRepository.findAll();
     }
 
-    public Optional<Cozinha> buscar(Long id) {
+    public Cozinha buscarPorId(Long id) {
         Optional<Cozinha> cozinhaBuscada = cozinhaRepository.findById(id);
         if (cozinhaBuscada.isEmpty()) {
             throw new EntidadeNaoEncontradaException("Cozinha não foi encontrado na base de dados.");
         }
-        return cozinhaBuscada;
+        return cozinhaBuscada.get();
     }
 
     public Cozinha salvar(Cozinha cozinha) {
@@ -37,16 +37,17 @@ public class CozinhaService {
 
 
     public Cozinha atualizar(Long id, Cozinha cozinha) {
-        buscar(id);
+        buscarPorId(id);
         cozinha.setId(id);
         return salvar(cozinha);
     }
 
     public void deletar(Long id) {
-        buscar(id);
+        buscarPorId(id);
         possuiVinculoComRestaurante(id);
         cozinhaRepository.deleteById(id);
     }
+
 
     private void possuiVinculoComRestaurante(Long cozinha_id) {
         List<Restaurante> allRestaurantes = restauranteRepository.findAll();

@@ -25,7 +25,7 @@ public class RestauranteController {
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable Long id) {
         try {
-            Optional<Restaurante> restauranteBuscado = restauranteService.buscar(id);
+            Restaurante restauranteBuscado = restauranteService.buscar(id);
             return ResponseEntity.ok().body(restauranteBuscado);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

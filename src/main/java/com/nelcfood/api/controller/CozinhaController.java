@@ -24,9 +24,9 @@ public class CozinhaController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> buscar(@PathVariable Long id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
         try {
-            Optional<Cozinha> cozinhaBuscada = cozinhaService.buscar(id);
+            Cozinha cozinhaBuscada = cozinhaService.buscarPorId(id);
             return ResponseEntity.ok(cozinhaBuscada);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -58,4 +58,5 @@ public class CozinhaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
 }
