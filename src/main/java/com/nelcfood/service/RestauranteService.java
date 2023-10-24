@@ -1,6 +1,7 @@
 package com.nelcfood.service;
 
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
@@ -34,12 +35,12 @@ public class RestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
-    public Restaurante atualizar(Restaurante restaurante, Long id) {
+    public Restaurante atualizar(Restaurante restauranteRecebido, Long id) {
         Restaurante restauranteBuscado = buscar(id);
-        cozinhaService.buscarPorId(restaurante.getCozinha().getId());
-        BeanUtils.copyProperties(restaurante, restauranteBuscado, "id", "formasPagamento");
-        restaurante.setId(id);
-        return restauranteRepository.save(restaurante);
+        Cozinha cozinhaBuscada = cozinhaService.buscarPorId(restauranteRecebido.getCozinha().getId());
+        BeanUtils.copyProperties(restauranteRecebido, restauranteBuscado, "id", "formasPagamento");
+        restauranteBuscado.setCozinha(cozinhaBuscada);
+        return restauranteRepository.save(restauranteBuscado);
     }
 
     public void deletar(Long id) {
