@@ -37,6 +37,8 @@ public class CidadeService {
         buscar(id);
         estadoService.buscar(cidade.getEstado().getId());
         cidade.setId(id);
+        System.out.println("Cidade que chega " + cidade + "\n");
+        System.out.println("Cidade que retonar " + cidadeRepository.save(cidade) + "\n");
         return cidadeRepository.save(cidade);
     }
 

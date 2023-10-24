@@ -38,7 +38,11 @@ public class RestauranteService {
     public Restaurante atualizar(Restaurante restauranteRecebido, Long id) {
         Restaurante restauranteBuscado = buscar(id);
         Cozinha cozinhaBuscada = cozinhaService.buscarPorId(restauranteRecebido.getCozinha().getId());
-        BeanUtils.copyProperties(restauranteRecebido, restauranteBuscado, "id", "formasPagamento");
+        if (restauranteRecebido.getFormasPagamento().isEmpty()){
+            BeanUtils.copyProperties(restauranteRecebido, restauranteBuscado, "id", "formasPagamento");
+        }else {
+            BeanUtils.copyProperties(restauranteRecebido, restauranteBuscado, "id");
+        }
         restauranteBuscado.setCozinha(cozinhaBuscada);
         return restauranteRepository.save(restauranteBuscado);
     }
