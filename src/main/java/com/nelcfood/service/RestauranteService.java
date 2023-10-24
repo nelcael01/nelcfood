@@ -4,6 +4,7 @@ import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +35,9 @@ public class RestauranteService {
     }
 
     public Restaurante atualizar(Restaurante restaurante, Long id) {
-        buscar(id);
+        Restaurante restauranteBuscado = buscar(id);
         cozinhaService.buscarPorId(restaurante.getCozinha().getId());
+        BeanUtils.copyProperties(restaurante, restauranteBuscado, "id", "formasPagamento");
         restaurante.setId(id);
         return restauranteRepository.save(restaurante);
     }
