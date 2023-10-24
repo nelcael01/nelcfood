@@ -1,0 +1,37 @@
+package com.nelcfood.model.entities;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Data
+@EqualsAndHashCode
+public class ItemPedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
+
+    @Column
+    private int quantidade;
+
+    @Column(name = "preco_unitario")
+    private BigDecimal precoUnitario;
+
+    @Column(name = "preco_total")
+    private BigDecimal precoTotal;
+
+    @Column
+    private String observacao;
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
+}

@@ -98,6 +98,25 @@ create table usuario_grupo (
 	primary key (usuario_id, grupo_id)
 ) engine=InnoDB default charset=utf8;
 
+--create table pedido (
+--	id bigint not null,
+--	sub_total decimal(10,2) not null,
+--	taxa_frete decimal(10,2) not null,
+--	valor_total decimal(10,2) not null,
+--	data_criacao datetime not null,
+--	data_confirmacao datetime,
+--	data_cancelamento datetime,
+--	data_entrega datetime,
+--	primary key (id)
+--) engine=InnoDB default charset=utf8;
+--
+--
+--create table item_pedido (
+--	id bigint not null,
+--	quantidade int
+--	primary key (id)
+--) engine=InnoDB default charset=utf8;
+
 alter table grupo_permissao add constraint fk_grupo_permissao_permissao
 foreign key (permissao_id) references permissao (id);
 
