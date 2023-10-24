@@ -1,6 +1,5 @@
 package com.nelcfood.model.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
