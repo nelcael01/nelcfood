@@ -98,24 +98,38 @@ create table usuario_grupo (
 	primary key (usuario_id, grupo_id)
 ) engine=InnoDB default charset=utf8;
 
---create table pedido (
---	id bigint not null,
---	sub_total decimal(10,2) not null,
---	taxa_frete decimal(10,2) not null,
---	valor_total decimal(10,2) not null,
---	data_criacao datetime not null,
---	data_confirmacao datetime,
---	data_cancelamento datetime,
---	data_entrega datetime,
---	primary key (id)
---) engine=InnoDB default charset=utf8;
---
---
---create table item_pedido (
---	id bigint not null,
---	quantidade int
---	primary key (id)
---) engine=InnoDB default charset=utf8;
+create table pedido (
+	id bigint not null,
+	sub_total decimal(10,2) not null,
+	taxa_frete decimal(10,2) not null,
+	valor_total decimal(10,2) not null,
+	data_criacao datetime not null,
+	data_confirmacao datetime,
+	data_cancelamento datetime,
+	data_entrega datetime,
+    endereco_cep varchar(50),
+    endereco_logradouro varchar(50),
+    endereco_numero varchar(50),
+    endereco_complemento varchar(50),
+    endereco_bairro varchar(50),
+    endereco_cidade_id bigint,
+    status varchar(60),
+    cliente_id bigint,
+    restaurante_id bigint,
+    forma_pagamento_id bigint,
+	primary key (id)
+) engine=InnoDB default charset=utf8;
+
+create table item_pedido (
+	id bigint not null,
+	quantidade int,
+    preco_unitario decimal(10,2),
+    preco_total decimal(10,2),
+    observacao varchar(120),
+    pedido_id bigint,
+    produto_id bigint,
+	primary key (id)
+) engine=InnoDB default charset=utf8;
 
 alter table grupo_permissao add constraint fk_grupo_permissao_permissao
 foreign key (permissao_id) references permissao (id);
@@ -144,4 +158,22 @@ foreign key (grupo_id) references grupo (id);
 alter table usuario_grupo add constraint fk_usuario_grupo_usuario
 foreign key (usuario_id) references usuario (id);
 
+# new
+alter table pedido add constraint fk_pedido_cidade
+    foreign key (endereco_cidade_id) references cidade (id);
+
+alter table pedido add constraint fk_pedido_cliente
+    foreign key (cliente_id) references usuario (id);
+
+alter table pedido add constraint fk_pedido_restaurante
+    foreign key (restaurante_id) references restaurante (id);
+
+alter table pedido add constraint fk_pedido_forma_pagamento
+    foreign key (forma_pagamento_id) references forma_pagamento (id);
+
+alter table item_pedido add constraint fk_item_pedido_pedido
+    foreign key (pedido_id) references pedido (id);
+
+alter table item_pedido add constraint fk_item_pedido_produto
+    foreign key (produto_id) references produto (id);
 
