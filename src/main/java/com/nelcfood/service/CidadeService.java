@@ -4,6 +4,7 @@ import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.model.repository.CidadeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +22,8 @@ public class CidadeService {
     }
 
     public Cidade buscar(Long id) {
-        Optional<Cidade> cidadeBuscada = cidadeRepository.findById(id);
-        if (cidadeBuscada.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Cidade não foi encontrado na base de dados.");
-        }
-        return cidadeBuscada.get();
+        return cidadeRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Cidade não foi encontrado na base de dados."));
     }
 
     public Cidade salvar(Cidade cidade) {
@@ -33,13 +31,11 @@ public class CidadeService {
         return cidadeRepository.save(cidade);
     }
 
-    public Cidade atualizar(Cidade cidade, Long id) {
-        buscar(id);
-        estadoService.buscar(cidade.getEstado().getId());
-        cidade.setId(id);
-        System.out.println("Cidade que chega " + cidade + "\n");
-        System.out.println("Cidade que retonar " + cidadeRepository.save(cidade) + "\n");
-        return cidadeRepository.save(cidade);
+    public Cidade atualizar(Cidade cidadeRecebida, Long id) {
+        Cidade cidadeBuscada = buscar(id);
+        estadoService.buscar(cidadeRecebida.getEstado().getId());
+        BeanUtils.copyProperties(cidadeBuscada, cidadeRecebida, "id");
+        return cidadeRepository.save(cidadeRecebida);
     }
 
     public void deletar(Long id) {

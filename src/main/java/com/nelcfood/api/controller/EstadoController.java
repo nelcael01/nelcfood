@@ -1,13 +1,12 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.service.EstadoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -17,43 +16,33 @@ public class EstadoController {
     EstadoService estadoService;
 
     @GetMapping
-    public ResponseEntity<?> listar() {
-        return ResponseEntity.ok().body(estadoService.listar());
+    @ResponseStatus(HttpStatus.OK)
+    public List<Estado> listar() {
+        return estadoService.listar();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> buscar(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(estadoService.buscar(id));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Estado buscar(@PathVariable Long id) {
+        return estadoService.buscar(id);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> atualizar(@RequestBody Estado estado, @PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(estadoService.atualizar(estado, id));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Estado atualizar(@RequestBody Estado estado, @PathVariable Long id) {
+        return estadoService.atualizar(estado, id);
     }
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody Estado estado) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(estadoService.salvar(estado));
+    @ResponseStatus(HttpStatus.CREATED)
+    public Estado salvar(@RequestBody Estado estado) {
+        return estadoService.salvar(estado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletar(@PathVariable Long id) {
-        try {
-            estadoService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id) {
+        estadoService.deletar(id);
     }
 
 }

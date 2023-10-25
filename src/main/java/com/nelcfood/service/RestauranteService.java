@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,11 +22,8 @@ public class RestauranteService {
     }
 
     public Restaurante buscar(Long id) {
-        Optional<Restaurante> restaurateBuscado = restauranteRepository.findById(id);
-        if (restaurateBuscado.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Restaurante não foi encontrado na base de dados.");
-        }
-        return restaurateBuscado.get();
+        return restauranteRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Restaurante não foi encontrado na base de dados."));
     }
 
     public Restaurante salvar(Restaurante restaurante) {
