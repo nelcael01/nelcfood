@@ -1,11 +1,10 @@
 package com.nelcfood.service;
 
+import com.nelcfood.exception.naoEncontrada.CozinhaNaoEncontradaException;
 import com.nelcfood.exception.EntidadeEmUsoException;
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.repository.CozinhaRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class CozinhaService {
 
     public Cozinha buscarPorId(Long id) {
         return cozinhaRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Cozinha não foi encontrado na base de dados."));
+                () -> new CozinhaNaoEncontradaException());
     }
 
     public Cozinha salvar(Cozinha cozinha) {

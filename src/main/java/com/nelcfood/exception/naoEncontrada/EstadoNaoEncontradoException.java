@@ -1,7 +1,4 @@
-package com.nelcfood.exception;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+package com.nelcfood.exception.naoEncontrada;
 
 public class EstadoNaoEncontradoException extends EntidadeNaoEncontradaException {
     public EstadoNaoEncontradoException() {

@@ -1,13 +1,10 @@
 package com.nelcfood.service;
 
+import com.nelcfood.exception.naoEncontrada.CidadeNaoEncontradaException;
 import com.nelcfood.exception.EntidadeEmUsoException;
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.NegocioException;
 import com.nelcfood.model.entities.Cidade;
-import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.CidadeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +23,7 @@ public class CidadeService {
 
     public Cidade buscar(Long id) {
         return cidadeRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Cidade não foi encontrado na base de dados."));
+                () -> new CidadeNaoEncontradaException());
     }
 
     public Cidade salvar(Cidade cidade) {

@@ -1,7 +1,6 @@
-package com.nelcfood.exception;
+package com.nelcfood.exception.naoEncontrada;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import com.nelcfood.exception.naoEncontrada.EntidadeNaoEncontradaException;
 
 public class RestauranteNaoEncontradoException extends EntidadeNaoEncontradaException {
     public RestauranteNaoEncontradoException() {

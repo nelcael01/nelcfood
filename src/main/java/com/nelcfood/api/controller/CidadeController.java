@@ -1,7 +1,6 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EstadoNaoEncontradoException;
+import com.nelcfood.exception.naoEncontrada.EstadoNaoEncontradoException;
 import com.nelcfood.exception.NegocioException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.service.CidadeService;

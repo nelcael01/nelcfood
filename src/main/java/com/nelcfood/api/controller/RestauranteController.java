@@ -1,12 +1,8 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
 import com.nelcfood.exception.NegocioException;
-import com.nelcfood.exception.RestauranteNaoEncontradoException;
-import com.nelcfood.model.entities.Cidade;
-import com.nelcfood.model.entities.Cozinha;
+import com.nelcfood.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Restaurante;
-import com.nelcfood.service.CozinhaService;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;

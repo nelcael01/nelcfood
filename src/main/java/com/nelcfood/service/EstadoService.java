@@ -1,8 +1,7 @@
 package com.nelcfood.service;
 
 import com.nelcfood.exception.EntidadeEmUsoException;
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EstadoNaoEncontradoException;
+import com.nelcfood.exception.naoEncontrada.EstadoNaoEncontradoException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.EstadoRepository;
 import lombok.AllArgsConstructor;
