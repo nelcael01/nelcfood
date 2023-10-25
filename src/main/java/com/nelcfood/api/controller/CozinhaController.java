@@ -3,6 +3,7 @@ package com.nelcfood.api.controller;
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.service.CozinhaService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,9 @@ public class CozinhaController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Cozinha atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-        return cozinhaService.atualizar(id, cozinha);
+        Cozinha cozinhaAtual = buscarPorId(id);
+        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+        return cozinhaService.salvar(cozinhaAtual);
     }
 
     @DeleteMapping("/{id}")

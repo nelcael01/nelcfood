@@ -1,8 +1,14 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.exception.NegocioException;
+import com.nelcfood.model.entities.Cidade;
+import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
+import com.nelcfood.service.CozinhaService;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +36,23 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante salvar(@RequestBody Restaurante restaurante) {
-        return restauranteService.salvar(restaurante);
+        try {
+            return restauranteService.salvar(restaurante);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Restaurante atualizar(@RequestBody Restaurante restaurante, @PathVariable Long id) {
-        return restauranteService.atualizar(restaurante, id);
+        Restaurante restauranteBuscado = restauranteService.buscar(id);
+        BeanUtils.copyProperties(restaurante, restauranteBuscado, "id");
+        try {
+            return restauranteService.salvar(restauranteBuscado);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

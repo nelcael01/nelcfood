@@ -1,8 +1,11 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.exception.NegocioException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.service.EstadoService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +33,19 @@ public class EstadoController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Estado atualizar(@RequestBody Estado estado, @PathVariable Long id) {
-        return estadoService.atualizar(estado, id);
+        Estado estadoBuscado = estadoService.buscar(id);
+        BeanUtils.copyProperties(estado, estadoBuscado, "id");
+        return estadoService.salvar(estadoBuscado);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Estado salvar(@RequestBody Estado estado) {
-        return estadoService.salvar(estado);
+        try {
+            return estadoService.salvar(estado);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
