@@ -42,8 +42,8 @@ public class Pedido {
     @Column(name = "data_entrega")
     private LocalDateTime dataEntrega;
 
-    @OneToMany(mappedBy = "pedido_id")
-    private List<ItemPedido> itens;
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itensPedidos;
 
     @Embedded
     private Endereco enderecoEntrega;
