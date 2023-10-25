@@ -1,16 +1,15 @@
 package com.nelcfood.service;
 
+import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cozinha;
-import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.CozinhaRepository;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,22 +23,18 @@ public class CozinhaService {
     }
 
     public Cozinha buscarPorId(Long id) {
-        Optional<Cozinha> cozinhaBuscada = cozinhaRepository.findById(id);
-        if (cozinhaBuscada.isEmpty()) {
-            throw new EntidadeNaoEncontradaException("Cozinha não foi encontrado na base de dados.");
-        }
-        return cozinhaBuscada.get();
+        return cozinhaRepository.findById(id).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Cozinha não foi encontrado na base de dados."));
     }
 
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
 
-
-    public Cozinha atualizar(Long id, Cozinha cozinha) {
-        buscarPorId(id);
-        cozinha.setId(id);
-        return salvar(cozinha);
+    public Cozinha atualizar(Long id, Cozinha cozinhaRecebida) {
+        Cozinha cozinhaAtual = buscarPorId(id);
+        BeanUtils.copyProperties(cozinhaRecebida, cozinhaAtual, "id");
+        return salvar(cozinhaAtual);
     }
 
     public void deletar(Long id) {
@@ -48,14 +43,11 @@ public class CozinhaService {
         cozinhaRepository.deleteById(id);
     }
 
-
     private void possuiVinculoComRestaurante(Long cozinha_id) {
-        List<Restaurante> allRestaurantes = restauranteRepository.findAll();
-        for (Restaurante restaurante : allRestaurantes) {
+        restauranteRepository.findAll().forEach(restaurante -> {
             if (restaurante.getCozinha().getId() == cozinha_id) {
-                throw new EntitidadeEmUsoException("Essa cozinha possui vinculo com um restaurante");
+                throw new EntidadeEmUsoException("Essa cozinha possui vinculo com um restaurante");
             }
-        }
+        });
     }
-
 }

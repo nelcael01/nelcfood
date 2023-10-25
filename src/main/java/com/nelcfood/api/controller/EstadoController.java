@@ -1,7 +1,7 @@
 package com.nelcfood.api.controller;
 
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EntitidadeEmUsoException;
+import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.service.EstadoService;
 import lombok.AllArgsConstructor;
@@ -51,7 +51,7 @@ public class EstadoController {
             return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntitidadeEmUsoException e) {
+        } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }

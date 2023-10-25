@@ -1,15 +1,12 @@
 package com.nelcfood.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class EntidadeNaoEncontradaException extends RuntimeException {
-    public EntidadeNaoEncontradaException(String msg) {
+@ResponseStatus(value = HttpStatus.CONFLICT)
+public class EntidadeEmUsoException extends RuntimeException {
+    public EntidadeEmUsoException(String msg) {
         super(msg);
     }
-
-
 }

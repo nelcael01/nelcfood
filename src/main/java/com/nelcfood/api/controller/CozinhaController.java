@@ -1,15 +1,12 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EntitidadeEmUsoException;
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.service.CozinhaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -19,44 +16,32 @@ public class CozinhaController {
     CozinhaService cozinhaService;
 
     @GetMapping
-    public ResponseEntity<?> listar() {
-        return ResponseEntity.ok().body(cozinhaService.listar());
+    @ResponseStatus(HttpStatus.OK)
+    public List<Cozinha> listar() {
+        return cozinhaService.listar();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
-        try {
-            Cozinha cozinhaBuscada = cozinhaService.buscarPorId(id);
-            return ResponseEntity.ok(cozinhaBuscada);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Cozinha buscarPorId(@PathVariable Long id) {
+        return cozinhaService.buscarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody Cozinha cozinha) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaService.salvar(cozinha));
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cozinha salvar(@RequestBody Cozinha cozinha) {
+        return cozinhaService.salvar(cozinha);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-        try {
-            return ResponseEntity.ok(cozinhaService.atualizar(id, cozinha));
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Cozinha atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
+        return cozinhaService.atualizar(id, cozinha);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Long id) {
-        try {
-            cozinhaService.deletar(id);
-            return ResponseEntity.noContent().build();
-        } catch (EntitidadeEmUsoException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long id) {
+        cozinhaService.deletar(id);
     }
-
 }

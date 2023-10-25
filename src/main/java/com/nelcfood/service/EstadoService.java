@@ -1,7 +1,7 @@
 package com.nelcfood.service;
 
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
-import com.nelcfood.exception.EntitidadeEmUsoException;
+import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.CidadeRepository;
@@ -51,7 +51,7 @@ public class EstadoService {
         List<Cidade> cidades = cidadeRepository.findAll();
         for (Cidade cidade : cidades) {
             if (cidade.getEstado().getId() == estado_id) {
-                throw new EntitidadeEmUsoException("Esse estado possui vinculo com uma cidade");
+                throw new EntidadeEmUsoException("Esse estado possui vinculo com uma cidade");
             }
         }
     }
