@@ -1,4 +1,4 @@
-package com.nelcfood.exception.naoEncontrada;
+package com.nelcfood.model.exception.naoEncontrada;
 
 public class CidadeNaoEncontradaException extends EntidadeNaoEncontradaException {
     public CidadeNaoEncontradaException() {

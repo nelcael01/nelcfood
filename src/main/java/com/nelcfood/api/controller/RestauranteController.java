@@ -1,7 +1,7 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.exception.NegocioException;
-import com.nelcfood.exception.naoEncontrada.RestauranteNaoEncontradoException;
+import com.nelcfood.model.exception.NegocioException;
+import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;

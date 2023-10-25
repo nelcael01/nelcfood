@@ -1,7 +1,7 @@
 package com.nelcfood.service;
 
-import com.nelcfood.exception.naoEncontrada.CidadeNaoEncontradaException;
-import com.nelcfood.exception.EntidadeEmUsoException;
+import com.nelcfood.model.exception.naoEncontrada.CidadeNaoEncontradaException;
+import com.nelcfood.model.exception.EntidadeEmUsoException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.model.repository.CidadeRepository;
 import lombok.AllArgsConstructor;

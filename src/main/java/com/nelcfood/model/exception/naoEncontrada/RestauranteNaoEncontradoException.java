@@ -1,6 +1,4 @@
-package com.nelcfood.exception.naoEncontrada;
-
-import com.nelcfood.exception.naoEncontrada.EntidadeNaoEncontradaException;
+package com.nelcfood.model.exception.naoEncontrada;
 
 public class RestauranteNaoEncontradoException extends EntidadeNaoEncontradaException {
     public RestauranteNaoEncontradoException() {
