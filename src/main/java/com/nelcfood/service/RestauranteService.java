@@ -44,7 +44,7 @@ public class RestauranteService {
             buscar(id);
             restauranteRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException("Esse Restaurante não pode ser excluido por que tem relação com alguma outra entidade");
+            throw new EntidadeEmUsoException("O Restaurante não pode ser excluido por ter relação com alguma outra entidade");
         }
     }
 }
