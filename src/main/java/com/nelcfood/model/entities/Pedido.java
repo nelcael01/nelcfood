@@ -48,18 +48,18 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
-    @Column
+    @Column(nullable = false)
     private StatusPedido status;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Usuario cliente;
 
     @ManyToOne
-    @JoinColumn(name = "restaurante_id")
+    @JoinColumn(name = "restaurante_id", nullable = false)
     private Restaurante restaurante;
 
     @ManyToOne
-    @JoinColumn(name = "forma_pagamento_id")
+    @JoinColumn(name = "forma_pagamento_id", nullable = false)
     private FormaPagamento formaPagamento;
 }

@@ -107,16 +107,16 @@ create table pedido (
 	data_confirmacao datetime,
 	data_cancelamento datetime,
 	data_entrega datetime,
-    endereco_cep varchar(50),
+    endereco_cep varchar(50) not null ,
     endereco_logradouro varchar(50),
-    endereco_numero varchar(50),
-    endereco_complemento varchar(50),
-    endereco_bairro varchar(50),
-    endereco_cidade_id bigint,
+    endereco_numero varchar(50) not null ,
+    endereco_complemento varchar(50) not null ,
+    endereco_bairro varchar(50) not null ,
+    endereco_cidade_id bigint not null ,
     status varchar(60),
-    cliente_id bigint,
-    restaurante_id bigint,
-    forma_pagamento_id bigint,
+    cliente_id bigint not null ,
+    restaurante_id bigint not null ,
+    forma_pagamento_id bigint not null,
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
@@ -126,8 +126,8 @@ create table item_pedido (
     preco_unitario decimal(10,2),
     preco_total decimal(10,2),
     observacao varchar(120),
-    pedido_id bigint,
-    produto_id bigint,
+    pedido_id bigint not null ,
+    produto_id bigint not null ,
 	primary key (id)
 ) engine=InnoDB default charset=utf8;
 
@@ -158,7 +158,6 @@ foreign key (grupo_id) references grupo (id);
 alter table usuario_grupo add constraint fk_usuario_grupo_usuario
 foreign key (usuario_id) references usuario (id);
 
-# new
 alter table pedido add constraint fk_pedido_cidade
     foreign key (endereco_cidade_id) references cidade (id);
 
