@@ -1,6 +1,7 @@
 package com.nelcfood.api.controller;
 
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.exception.EstadoNaoEncontradoException;
 import com.nelcfood.exception.NegocioException;
 import com.nelcfood.model.entities.Cidade;
 import com.nelcfood.service.CidadeService;
@@ -35,8 +36,8 @@ public class CidadeController {
     public Cidade salvar(@RequestBody Cidade cidade) {
         try {
             return cidadeService.salvar(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
@@ -47,8 +48,8 @@ public class CidadeController {
         BeanUtils.copyProperties(cidade, cidadeBuscada, "id");
         try {
             return cidadeService.salvar(cidadeBuscada);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
+        } catch (EstadoNaoEncontradoException e) {
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 

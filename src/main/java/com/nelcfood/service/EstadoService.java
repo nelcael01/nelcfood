@@ -2,6 +2,7 @@ package com.nelcfood.service;
 
 import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.exception.EstadoNaoEncontradoException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.EstadoRepository;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,8 @@ public class EstadoService {
     }
 
     public Estado buscar(Long id) {
-        return estadoRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Estado não foi encontrado na base de dados"));
+        return estadoRepository.findById(id).
+                orElseThrow(() -> new EstadoNaoEncontradoException());
     }
 
     public Estado salvar(Estado estado) {

@@ -2,6 +2,7 @@ package com.nelcfood.service;
 
 import com.nelcfood.exception.EntidadeEmUsoException;
 import com.nelcfood.exception.EntidadeNaoEncontradaException;
+import com.nelcfood.exception.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
@@ -25,7 +26,7 @@ public class RestauranteService {
 
     public Restaurante buscar(Long id) {
         return restauranteRepository.findById(id).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Restaurante não foi encontrado na base de dados."));
+                () -> new RestauranteNaoEncontradoException());
     }
 
     public Restaurante salvar(Restaurante restaurante) {
