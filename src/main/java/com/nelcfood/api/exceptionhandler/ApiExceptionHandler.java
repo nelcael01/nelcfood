@@ -6,6 +6,7 @@ import com.nelcfood.model.exception.naoEncontrada.EntidadeNaoEncontradaException
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -13,6 +14,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable
+            (HttpMessageNotReadableException ex,
+             HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        Problema problema = fabricaDeProblema(status,
+                TipoProblema.ENTIDADE_NAO_ENCONTRADA,
+                "O corpo da requisição está inválido. Verifique erro de sintaxe.");
+
+        return super.handleHttpMessageNotReadable(ex, headers, status, request);
+    }
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> tratarEntidadeNaoEncontradaException
@@ -37,7 +50,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NegocioException.class)
     public ResponseEntity<?> tratarNegocioException(NegocioException e, WebRequest request) {
         Problema problema = fabricaDeProblema(HttpStatus.BAD_REQUEST,
-                TipoProblema.ENTIDADE_NAO_ENCONTRADA,
+                TipoProblema.ERRO_NEGOCIO,
                 e.getMessage());
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
