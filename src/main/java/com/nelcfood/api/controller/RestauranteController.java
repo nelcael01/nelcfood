@@ -1,6 +1,7 @@
 package com.nelcfood.api.controller;
 
 import com.nelcfood.model.exception.NegocioException;
+import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
 import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.service.RestauranteService;
@@ -35,7 +36,7 @@ public class RestauranteController {
     public Restaurante salvar(@RequestBody Restaurante restaurante) {
         try {
             return restauranteService.salvar(restaurante);
-        } catch (RestauranteNaoEncontradoException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
@@ -47,7 +48,7 @@ public class RestauranteController {
         BeanUtils.copyProperties(restaurante, restauranteBuscado, "id");
         try {
             return restauranteService.salvar(restauranteBuscado);
-        } catch (RestauranteNaoEncontradoException e) {
+        } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }

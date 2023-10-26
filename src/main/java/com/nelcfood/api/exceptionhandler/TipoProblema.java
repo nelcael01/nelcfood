@@ -1,14 +1,18 @@
 package com.nelcfood.api.exceptionhandler;
 
+import lombok.Getter;
+
+@Getter
 public enum TipoProblema {
 
-    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada");
+    ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
+    ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso");;
 
-    private String title;
-    private String uri;
+    private String titulo;
+    private String tipo;
 
-    TipoProblema(String path, String title) {
-        this.uri = "https//nelcfood.com.br" + path;
-        this.title = title;
+    TipoProblema(String tipo, String titulo) {
+        this.tipo = "https//nelcfood.com.br" + tipo;
+        this.titulo = titulo;
     }
 }

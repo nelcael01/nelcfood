@@ -32,13 +32,6 @@ public class RestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
-    public Restaurante atualizar(Restaurante restauranteRecebido, Long id) {
-        Restaurante restauranteBuscado = buscar(id);
-        BeanUtils.copyProperties(restauranteRecebido, restauranteBuscado,
-                "id", "formasPagamento", "endereco", "dataCadastro", "dataAtualizacao");
-        return salvar(restauranteBuscado);
-    }
-
     public void deletar(Long id) {
         try {
             buscar(id);

@@ -41,11 +41,7 @@ public class EstadoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Estado salvar(@RequestBody Estado estado) {
-        try {
-            return estadoService.salvar(estado);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        return estadoService.salvar(estado);
     }
 
     @DeleteMapping("/{id}")
