@@ -30,7 +30,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getMessage()
         )
                 .mensagemUsuario(e.getMessage())
-                .timestamp(LocalDateTime.now())
                 .build();
 
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
@@ -44,7 +43,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getMessage()
         )
                 .mensagemUsuario( e.getMessage())
-                .timestamp(LocalDateTime.now())
                 .build();
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -56,7 +54,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 e.getMessage()
         )
                 .mensagemUsuario(e.getMessage())
-                .timestamp(LocalDateTime.now())
                 .build();
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
@@ -68,7 +65,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 MSG_ERRO_GENERICA_USUARIO_FINAL
         )
                 .mensagemUsuario(MSG_ERRO_GENERICA_USUARIO_FINAL)
-                .timestamp(LocalDateTime.now())
                 .build();
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
@@ -99,6 +95,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(status.value())
                 .tipo(tipoProblema.getTipo())
                 .titulo(tipoProblema.getTitulo())
+                .timestamp(LocalDateTime.now())
                 .detalhes(detalhes);
     }
 }
