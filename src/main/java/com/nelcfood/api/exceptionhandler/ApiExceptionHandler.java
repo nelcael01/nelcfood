@@ -94,23 +94,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable
-            (HttpMessageNotReadableException ex,
-             HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        Problema problema = fabricaDeProblema(
-                status,
-                TipoProblema.ENTIDADE_NAO_ENCONTRADA,
-                "O corpo da requisição está inválido. Verifique erro de sintaxe."
-        )
-                .mensagemUsuario("O corpo da requisição está inválido. Verifique erro de sintaxe.")
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return super.handleHttpMessageNotReadable(ex, headers, status, request);
-    }
-
     private Problema.ProblemaBuilder fabricaDeProblema(HttpStatus status, TipoProblema tipoProblema, String detalhes) {
         return Problema.builder()
                 .status(status.value())
