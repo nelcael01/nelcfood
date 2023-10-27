@@ -16,4 +16,6 @@ public class Problema {
     private String titulo;
     private String detalhes;
 
+    private String mensagemUsuario;
+    private LocalDateTime timestamp;
 }

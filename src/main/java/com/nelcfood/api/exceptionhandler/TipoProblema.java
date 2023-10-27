@@ -7,6 +7,7 @@ public enum TipoProblema {
 
     ENTIDADE_NAO_ENCONTRADA("/entidade-nao-encontrada", "Entidade não encontrada"),
     ENTIDADE_EM_USO("/entidade-em-uso", "Entidade em uso"),
+    ERRO_DE_SISTEMA("/erro-de-sistema", "Erro de sistema"),
     ERRO_NEGOCIO("/erro-negocio", "Violação de regra de negócio");
 
     private String titulo;
