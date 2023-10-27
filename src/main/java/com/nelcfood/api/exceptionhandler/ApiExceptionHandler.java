@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -70,6 +71,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        Problema problema = fabricaDeProblema(HttpStatus.BAD_REQUEST,
+                TipoProblema.DADOS_INVALIDOS,
+                "Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente."
+        )
+                .mensagemUsuario("Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente.")
+                .build();
+        return super.handleExceptionInternal(ex, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @Override
     protected ResponseEntity<Object> handleExceptionInternal
             (Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         if (body == null) {
@@ -89,6 +101,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
+
 
     private Problema.ProblemaBuilder fabricaDeProblema(HttpStatus status, TipoProblema tipoProblema, String detalhes) {
         return Problema.builder()
