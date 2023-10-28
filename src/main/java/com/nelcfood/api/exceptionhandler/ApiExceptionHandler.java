@@ -14,7 +14,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -43,7 +46,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 TipoProblema.ENTIDADE_EM_USO,
                 e.getMessage()
         )
-                .mensagemUsuario( e.getMessage())
+                .mensagemUsuario(e.getMessage())
                 .build();
         return handleExceptionInternal(e, problema, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
@@ -72,11 +75,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String detalhes = "Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente.";
+        List<Problema.Campo> campos = ex.getBindingResult().getFieldErrors()
+                .stream().map(fielError -> Problema.Campo.builder()
+                        .nome(fielError.getField())
+                        .mensagemUsuario(fielError.getDefaultMessage())
+                        .build()).collect(Collectors.toList());
         Problema problema = fabricaDeProblema(HttpStatus.BAD_REQUEST,
                 TipoProblema.DADOS_INVALIDOS,
-                "Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente."
+                detalhes
         )
-                .mensagemUsuario("Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente.")
+                .mensagemUsuario(detalhes)
+                .campos(campos)
                 .build();
         return super.handleExceptionInternal(ex, problema, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
