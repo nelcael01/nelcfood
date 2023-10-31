@@ -1,4 +1,4 @@
-package com.nelcfood.api;
+package com.nelcfood.core.validation;
 
 public interface GroupsValidation {
     interface cozinhaId {}

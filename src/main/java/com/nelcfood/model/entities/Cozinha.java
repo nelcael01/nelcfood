@@ -1,6 +1,6 @@
 package com.nelcfood.model.entities;
 
-import com.nelcfood.api.GroupsValidation;
+import com.nelcfood.core.validation.GroupsValidation;
 import lombok.*;
 
 import javax.persistence.*;
