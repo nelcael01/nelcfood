@@ -1,5 +1,6 @@
 package com.nelcfood.api;
 
 public interface GroupsValidation {
-    interface CadastroRestaurante {}
+    interface cozinhaId {}
+    interface EstadoId {}
 }

@@ -8,6 +8,7 @@ import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,7 +45,7 @@ public class RestauranteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Restaurante atualizar(@RequestBody Restaurante restaurante, @PathVariable Long id) {
+    public Restaurante atualizar(@RequestBody @Valid Restaurante restaurante, @PathVariable Long id) {
         Restaurante restauranteBuscado = restauranteService.buscar(id);
         BeanUtils.copyProperties(restaurante, restauranteBuscado, "id");
         try {
