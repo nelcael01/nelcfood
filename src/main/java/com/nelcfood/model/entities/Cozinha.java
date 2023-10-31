@@ -1,8 +1,10 @@
 package com.nelcfood.model.entities;
 
+import com.nelcfood.api.GroupsValidation;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,12 +15,13 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cozinha {
 
-    @NotNull
+    @NotNull(groups = GroupsValidation.CadastroRestaurante.class)
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(name = "nome")
     private String nome;
 
