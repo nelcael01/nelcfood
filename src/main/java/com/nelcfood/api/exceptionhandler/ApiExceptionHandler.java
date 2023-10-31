@@ -3,6 +3,10 @@ package com.nelcfood.api.exceptionhandler;
 import com.nelcfood.model.exception.EntidadeEmUsoException;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.EntidadeNaoEncontradaException;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +24,13 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
+@AllArgsConstructor
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     public static final String MSG_ERRO_GENERICA_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. Tente novamente e se o problema persistir," +
             " entre em contato com o admistrador do sistema.";
+
+    private MessageSource messageSource;
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<?> tratarEntidadeNaoEncontradaException
@@ -78,10 +85,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         String detalhes = "Um ou mais campos estão inválidos. Faça o preenchemento correto e tente novamente.";
         List<Problema.Campo> campos = ex.getBindingResult().getFieldErrors()
-                .stream().map(fielError -> Problema.Campo.builder()
-                        .nome(fielError.getField())
-                        .mensagemUsuario(fielError.getDefaultMessage())
-                        .build()).collect(Collectors.toList());
+                .stream().map(fielError -> {
+                    String mensagem = messageSource.getMessage(fielError, LocaleContextHolder.getLocale());
+                    return Problema.Campo.builder()
+                            .nome(fielError.getField())
+                            .mensagemUsuario(mensagem)
+                            .build();
+                }).collect(Collectors.toList());
+
+
         Problema problema = fabricaDeProblema(HttpStatus.BAD_REQUEST,
                 TipoProblema.DADOS_INVALIDOS,
                 detalhes
