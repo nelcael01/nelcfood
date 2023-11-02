@@ -4,7 +4,6 @@ import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.exception.EntidadeEmUsoException;
 import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
-import com.nelcfood.model.exception.naoEncontrada.EntidadeNaoEncontradaException;
 import com.nelcfood.service.CozinhaService;
 import com.nelcfood.service.RestauranteService;
 import org.junit.Assert;
@@ -20,7 +19,7 @@ import java.math.BigDecimal;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CozinhaServiceTest {
+public class CozinhaServiceTestIT {
 
   @Autowired
   CozinhaService cozinhaService;
