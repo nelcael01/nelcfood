@@ -2,6 +2,7 @@ package com.nelcfood.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelcfood.core.validation.GroupsValidation;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Restaurante {
 
