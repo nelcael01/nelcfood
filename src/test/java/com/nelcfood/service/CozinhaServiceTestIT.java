@@ -71,6 +71,17 @@ public class CozinhaServiceTestIT {
   }
 
   @Test
+  public void deveRetonar404QuandoConsultarCozinhaInexistente() {
+    RestAssured.given()
+            .pathParams("id", 10)
+            .accept(ContentType.JSON)
+            .when()
+            .get("/{id}")
+            .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
+  }
+
+  @Test
   public void deveRetornar201QuandoCadastrarCozinha() {
     RestAssured.given()
             .body("{ \"nome\": \"Chinesa\" }")
