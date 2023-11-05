@@ -6,6 +6,7 @@ import com.nelcfood.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.flywaydb.core.Flyway;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +48,17 @@ public class CozinhaServiceTestIT {
             .get()
             .then()
             .statusCode(HttpStatus.OK.value());
+  }
+
+  @Test
+  public void deveConter3CozinhasQuandoConsultarCozinhas() {
+    RestAssured
+            .given()
+            .accept(ContentType.JSON)
+            .when()
+            .get()
+            .then()
+            .body("", Matchers.hasSize(3));
   }
 
   @Test
