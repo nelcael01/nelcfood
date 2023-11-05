@@ -5,7 +5,6 @@ import com.nelcfood.model.repository.CozinhaRepository;
 import com.nelcfood.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,8 +40,7 @@ public class CozinhaServiceTestIT {
 
   @Test
   public void deveRetonar200QuandoListarCozinhas() {
-    RestAssured
-            .given()
+    RestAssured.given()
             .accept(ContentType.JSON)
             .when()
             .get()
@@ -52,8 +50,7 @@ public class CozinhaServiceTestIT {
 
   @Test
   public void deveConter3CozinhasQuandoConsultarCozinhas() {
-    RestAssured
-            .given()
+    RestAssured.given()
             .accept(ContentType.JSON)
             .when()
             .get()
@@ -62,9 +59,20 @@ public class CozinhaServiceTestIT {
   }
 
   @Test
+  public void deveRetonar200ERespostaCorretaQuandoConsultarCozinhaExistente() {
+    RestAssured.given()
+            .pathParams("id", 1)
+            .accept(ContentType.JSON)
+            .when()
+            .get("/{id}")
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("nome", Matchers.equalTo("Chinesa Teste"));
+  }
+
+  @Test
   public void deveRetornar201QuandoCadastrarCozinha() {
-    RestAssured
-            .given()
+    RestAssured.given()
             .body("{ \"nome\": \"Chinesa\" }")
             .contentType(ContentType.JSON)
             .accept(ContentType.JSON)
