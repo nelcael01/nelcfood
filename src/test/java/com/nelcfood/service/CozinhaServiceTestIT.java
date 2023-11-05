@@ -1,5 +1,8 @@
-package com.nelcfood.nelcfood.service;
+package com.nelcfood.service;
 
+import com.nelcfood.model.entities.Cozinha;
+import com.nelcfood.model.repository.CozinhaRepository;
+import com.nelcfood.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.flywaydb.core.Flyway;
@@ -22,13 +25,17 @@ public class CozinhaServiceTestIT {
   private int port;
 
   @Autowired
-  private Flyway flyway;
+  private DatabaseCleaner databaseCleaner;
+
+  @Autowired
+  private CozinhaRepository cozinhaRepository;
 
   @Before
   public void setUp() {
     RestAssured.basePath = "/cozinhas";
     RestAssured.port = port;
-    flyway.migrate();
+    databaseCleaner.clearTables();
+    prepararDados();
   }
 
   @Test
@@ -53,5 +60,16 @@ public class CozinhaServiceTestIT {
             .post()
             .then()
             .statusCode(HttpStatus.CREATED.value());
+  }
+
+  private void prepararDados() {
+    Cozinha cozinha1 = Cozinha.builder().nome("Chinesa Teste").build();
+    cozinhaRepository.save(cozinha1);
+
+    Cozinha cozinha2 = Cozinha.builder().nome("Indiana Teste").build();
+    cozinhaRepository.save(cozinha2);
+
+    Cozinha cozinha3 = Cozinha.builder().nome("Brasileira Teste").build();
+    cozinhaRepository.save(cozinha3);
   }
 }
