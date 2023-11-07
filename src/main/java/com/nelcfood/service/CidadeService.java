@@ -7,6 +7,7 @@ import com.nelcfood.model.repository.CidadeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,29 +15,30 @@ import java.util.List;
 @Service
 public class CidadeService {
 
-    CidadeRepository cidadeRepository;
-    EstadoService estadoService;
+  CidadeRepository cidadeRepository;
+  EstadoService estadoService;
 
-    public List<Cidade> listar() {
-        return cidadeRepository.findAll();
-    }
+  public List<Cidade> listar() {
+    return cidadeRepository.findAll();
+  }
 
-    public Cidade buscar(Long id) {
-        return cidadeRepository.findById(id).orElseThrow(
-                () -> new CidadeNaoEncontradaException());
-    }
+  public Cidade buscar(Long id) {
+    return cidadeRepository.findById(id).orElseThrow(
+            () -> new CidadeNaoEncontradaException());
+  }
 
-    public Cidade salvar(Cidade cidade) {
-        cidade.setEstado(estadoService.buscar(cidade.getEstado().getId()));
-        return cidadeRepository.save(cidade);
+  @Transactional
+  public Cidade salvar(Cidade cidade) {
+    cidade.setEstado(estadoService.buscar(cidade.getEstado().getId()));
+    return cidadeRepository.save(cidade);
+  }
+  @Transactional
+  public void deletar(Long id) {
+    try {
+      buscar(id);
+      cidadeRepository.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      throw new EntidadeEmUsoException("Essa cidade não pode ser excluida por que tem relação com alguma outra entidade");
     }
-
-    public void deletar(Long id) {
-        try {
-            buscar(id);
-            cidadeRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException("Essa cidade não pode ser excluida por que tem relação com alguma outra entidade");
-        }
-    }
+  }
 }

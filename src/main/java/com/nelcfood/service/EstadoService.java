@@ -7,6 +7,7 @@ import com.nelcfood.model.repository.EstadoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,27 +15,29 @@ import java.util.List;
 @Service
 public class EstadoService {
 
-    EstadoRepository estadoRepository;
+  EstadoRepository estadoRepository;
 
-    public List<Estado> listar() {
-        return estadoRepository.findAll();
-    }
+  public List<Estado> listar() {
+    return estadoRepository.findAll();
+  }
 
-    public Estado buscar(Long id) {
-        return estadoRepository.findById(id).
-                orElseThrow(() -> new EstadoNaoEncontradoException());
-    }
+  public Estado buscar(Long id) {
+    return estadoRepository.findById(id).
+            orElseThrow(() -> new EstadoNaoEncontradoException());
+  }
 
-    public Estado salvar(Estado estado) {
-        return estadoRepository.save(estado);
-    }
+  @Transactional
+  public Estado salvar(Estado estado) {
+    return estadoRepository.save(estado);
+  }
 
-    public void deletar(Long id) {
-        try {
-            buscar(id);
-            estadoRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException("O Estado não pode ser excluido por ter relação com alguma outra entidade");
-        }
+  @Transactional
+  public void deletar(Long id) {
+    try {
+      buscar(id);
+      estadoRepository.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      throw new EntidadeEmUsoException("O Estado não pode ser excluido por ter relação com alguma outra entidade");
     }
+  }
 }

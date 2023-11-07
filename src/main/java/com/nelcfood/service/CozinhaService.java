@@ -7,6 +7,7 @@ import com.nelcfood.model.repository.CozinhaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,11 +25,12 @@ public class CozinhaService {
         return cozinhaRepository.findById(id).orElseThrow(
                 () -> new CozinhaNaoEncontradaException());
     }
-
+    @Transactional
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
 
+    @Transactional
     public void deletar(Long id) {
         try {
             buscarPorId(id);

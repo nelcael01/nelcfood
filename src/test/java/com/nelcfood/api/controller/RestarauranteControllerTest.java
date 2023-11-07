@@ -2,8 +2,10 @@ package com.nelcfood.api.controller;
 
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
+import com.nelcfood.model.repository.CozinhaRepository;
 import com.nelcfood.model.repository.RestauranteRepository;
 import com.nelcfood.util.DatabaseCleaner;
+import com.nelcfood.util.LeituraDeJson;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -26,8 +28,11 @@ public class RestarauranteControllerTest {
 
   public static final int ID_INEXISTENTE = 1000;
   private int contadorRestaurantes;
-
   private Restaurante restauranteValidacao;
+  private String jsonDeveRetonar201_QuandoSalvarRestaurante;
+  private String jsonDeveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida;
+  private String jsonDeveRetonar400_QuandoSalvarRestauranteComNomeInvalido;
+  private String jsonDeveRetonar400_QuandoSalvarRestauranteComFreteInvalido;
 
   @LocalServerPort
   private int port;
@@ -38,10 +43,24 @@ public class RestarauranteControllerTest {
   @Autowired
   private RestauranteRepository restauranteRepository;
 
+  @Autowired
+  private CozinhaRepository cozinhaRepository;
+
   @Before
   public void setUp() {
     RestAssured.basePath = "/restaurantes";
     RestAssured.port = port;
+    jsonDeveRetonar201_QuandoSalvarRestaurante = LeituraDeJson.getConteudoJson(
+            "/json/deveRetonar201_QuandoSalvarRestaurante.json");
+
+    jsonDeveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida = LeituraDeJson.getConteudoJson(
+            "/json/deveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida");
+
+    jsonDeveRetonar400_QuandoSalvarRestauranteComNomeInvalido = LeituraDeJson.getConteudoJson(
+            "/json/deveRetonar400_QuandoSalvarRestauranteComNomeInvalido.json");
+
+    jsonDeveRetonar400_QuandoSalvarRestauranteComFreteInvalido = LeituraDeJson.getConteudoJson(
+            "/json/deveRetonar400_QuandoSalvarRestauranteComFreteInvalido.json");
     databaseCleaner.clearTables();
     prepararDados();
   }
@@ -89,32 +108,58 @@ public class RestarauranteControllerTest {
             .statusCode(HttpStatus.NOT_FOUND.value());
   }
 
-//  @Test
-//  public void deveRetonar201_QuandoSalvarRestaurante() {
-//    RestAssured.given()
-//            .accept(ContentType.JSON)
-//            .contentType(ContentType.JSON)
-//            .body("")
-//            .when()
-//            .post()
-//            .then()
-//            .statusCode(HttpStatus.CREATED.value());
-//  }
-//
-//  @Test
-//  public void deveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida() {
-//    RestAssured.given()
-//            .accept(ContentType.JSON)
-//            .contentType(ContentType.JSON)
-//            .body("")
-//            .when()
-//            .post()
-//            .then()
-//            .statusCode(HttpStatus.BAD_REQUEST.value());
-//  }
+  @Test
+  public void deveRetonar201_QuandoSalvarRestaurante() {
+    RestAssured.given()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body(jsonDeveRetonar201_QuandoSalvarRestaurante)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.CREATED.value());
+  }
+
+  @Test
+  public void deveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida() {
+    RestAssured.given()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body(jsonDeveRetonar400_QuandoSalvarRestauranteComCozinhaInvalida)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value());
+  }
+
+  @Test
+  public void deveRetonar400_QuandoSalvarRestauranteComNomeInvalido() {
+    RestAssured.given()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body(jsonDeveRetonar400_QuandoSalvarRestauranteComNomeInvalido)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value());
+  }
+
+  @Test
+  public void deveRetonar400_QuandoSalvarRestauranteComFreteInvalido() {
+    RestAssured.given()
+            .accept(ContentType.JSON)
+            .contentType(ContentType.JSON)
+            .body(jsonDeveRetonar400_QuandoSalvarRestauranteComFreteInvalido)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value());
+  }
+
 
   private void prepararDados() {
     Cozinha cozinha = Cozinha.builder().nome("Brasileira").build();
+    cozinhaRepository.save(cozinha);
 
     restauranteValidacao = Restaurante.builder()
             .nome("Restaurante Brasileiro Teste")

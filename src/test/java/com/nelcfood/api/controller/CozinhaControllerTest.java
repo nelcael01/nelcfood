@@ -5,6 +5,7 @@ import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.CozinhaRepository;
 import com.nelcfood.model.repository.RestauranteRepository;
 import com.nelcfood.util.DatabaseCleaner;
+import com.nelcfood.util.LeituraDeJson;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -30,6 +31,10 @@ public class CozinhaControllerTest {
 
   private Cozinha cozinhaConflit;
 
+  private String jsonDeveRetornar201_QuandoSalvarCozinha;
+
+  private String jsonDeveRetonar400_QuandoSalvarCozinhaComNomeVazio;
+
   @LocalServerPort
   private int port;
 
@@ -48,6 +53,13 @@ public class CozinhaControllerTest {
     RestAssured.basePath = "/cozinhas";
     RestAssured.port = port;
     databaseCleaner.clearTables();
+
+    jsonDeveRetornar201_QuandoSalvarCozinha = LeituraDeJson.getConteudoJson(
+            "/json/deveRetornar201_QuandoSalvarCozinha.json");
+
+    jsonDeveRetonar400_QuandoSalvarCozinhaComNomeVazio = LeituraDeJson.getConteudoJson(
+            "/json/jsonDeveRetonar400_QuandoSalvarCozinhaComNomeVazio.json");
+
     prepararDados();
   }
 
@@ -94,30 +106,29 @@ public class CozinhaControllerTest {
             .statusCode(HttpStatus.NOT_FOUND.value());
   }
 
-  //buscar como apontar para arquivo json
+  @Test
+  public void deveRetornar201_QuandoSalvarCozinha() {
+    RestAssured.given()
+            .body(jsonDeveRetornar201_QuandoSalvarCozinha)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.CREATED.value());
+  }
 
-//  @Test
-//  public void deveRetornar201_QuandoSalvarCozinha() {
-//    RestAssured.given()
-//            .body(LeituraDeJson.getConteudoJson("./api/json/deveRetornar201QuandoCadastrarCozinha.json"))
-//            .contentType(ContentType.JSON)
-//            .accept(ContentType.JSON)
-//            .when()
-//            .post()
-//            .then()
-//            .statusCode(HttpStatus.CREATED.value());
-//  }
-
-//  public void deveRetonar400_QuandoSalvarCozinhaComNomeVazio() {
-//    RestAssured.given()
-//            .body(LeituraDeJson.getConteudoJson("./api/json/deveRetornar201QuandoCadastrarCozinha.json"))
-//            .contentType(ContentType.JSON)
-//            .accept(ContentType.JSON)
-//            .when()
-//            .post()
-//            .then()
-//            .statusCode(HttpStatus.BAD_REQUEST.value());
-//  }
+  @Test
+  public void deveRetonar400_QuandoSalvarCozinhaComNomeVazio() {
+    RestAssured.given()
+            .body(jsonDeveRetonar400_QuandoSalvarCozinhaComNomeVazio)
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.value());
+  }
 
   @Test
   public void deveRetonar204_QuandoDeletarCozinha() {
@@ -157,7 +168,7 @@ public class CozinhaControllerTest {
     cozinhaRepository.save(cozinhaValidacao);
     contadorCozinhas++;
 
-    cozinhaConflit=  Cozinha.builder().nome("Indiada Teste").build();
+    cozinhaConflit = Cozinha.builder().nome("Indiada Teste").build();
     cozinhaRepository.save(cozinhaConflit);
     Restaurante restaurante = Restaurante.builder()
             .nome("Restaurante Teste")

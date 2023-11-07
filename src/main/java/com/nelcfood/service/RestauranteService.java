@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,29 +16,31 @@ import java.util.List;
 @Service
 public class RestauranteService {
 
-    RestauranteRepository restauranteRepository;
-    CozinhaService cozinhaService;
+  RestauranteRepository restauranteRepository;
+  CozinhaService cozinhaService;
 
-    public List<Restaurante> listar() {
-        return restauranteRepository.findAll();
-    }
+  public List<Restaurante> listar() {
+    return restauranteRepository.findAll();
+  }
 
-    public Restaurante buscar(Long id) {
-        return restauranteRepository.findById(id).orElseThrow(
-                () -> new RestauranteNaoEncontradoException());
-    }
+  public Restaurante buscar(Long id) {
+    return restauranteRepository.findById(id).orElseThrow(
+            () -> new RestauranteNaoEncontradoException());
+  }
 
-    public Restaurante salvar(Restaurante restaurante) {
-        restaurante.setCozinha(cozinhaService.buscarPorId(restaurante.getCozinha().getId()));
-        return restauranteRepository.save(restaurante);
-    }
+  @Transactional
+  public Restaurante salvar(Restaurante restaurante) {
+    restaurante.setCozinha(cozinhaService.buscarPorId(restaurante.getCozinha().getId()));
+    return restauranteRepository.save(restaurante);
+  }
 
-    public void deletar(Long id) {
-        try {
-            buscar(id);
-            restauranteRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException("O Restaurante não pode ser excluido por ter relação com alguma outra entidade");
-        }
+  @Transactional
+  public void deletar(Long id) {
+    try {
+      buscar(id);
+      restauranteRepository.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      throw new EntidadeEmUsoException("O Restaurante não pode ser excluido por ter relação com alguma outra entidade");
     }
+  }
 }
