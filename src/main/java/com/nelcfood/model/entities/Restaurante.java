@@ -15,6 +15,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,10 +65,10 @@ public class Restaurante {
   @JsonIgnore
   @CreationTimestamp
   @Column(name = "data_cadastro", nullable = false)
-  private LocalDateTime dataCadastro;
+  private OffsetDateTime dataCadastro;
 
-  @JsonIgnore
+//  @JsonIgnore
   @UpdateTimestamp
   @Column(name = "data_atualizacao", nullable = false)
-  private LocalDateTime dataAtualizacao;
+  private OffsetDateTime dataAtualizacao;
 }

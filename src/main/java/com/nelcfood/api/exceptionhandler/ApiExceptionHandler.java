@@ -18,6 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -111,14 +112,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             body = Problema.builder()
                     .titulo(status.getReasonPhrase())
                     .status(status.value())
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .mensagemUsuario(MSG_ERRO_GENERICA_USUARIO_FINAL)
                     .build();
         } else if (body instanceof String) {
             body = Problema.builder()
                     .titulo((String) body)
                     .status(status.value())
-                    .timestamp(LocalDateTime.now())
+                    .timestamp(OffsetDateTime.now())
                     .mensagemUsuario(MSG_ERRO_GENERICA_USUARIO_FINAL)
                     .build();
         }
@@ -131,7 +132,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(status.value())
                 .tipo(tipoProblema.getTipo())
                 .titulo(tipoProblema.getTitulo())
-                .timestamp(LocalDateTime.now())
+                .timestamp(OffsetDateTime.now())
                 .detalhes(detalhes);
     }
 }
