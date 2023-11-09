@@ -1,13 +1,13 @@
-package com.nelcfood.api.dto;
+package com.nelcfood.api.dto.exit;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-public class RestauranteDTO {
+public class RestauranteDTOExit {
   private Long id;
   private String nome;
   private BigDecimal taxaFrete;
-  private CozinhaDTO cozinha;
+  private CozinhaDTOExit cozinha;
 }

@@ -32,42 +32,33 @@ public class Restaurante {
   @EqualsAndHashCode.Include
   private Long id;
 
-  @NotBlank
   @Column(nullable = false)
   private String nome;
 
-  @PositiveOrZero
   @Column(name = "taxa_frete", nullable = false)
   private BigDecimal taxaFrete;
 
-  @Valid
-  @NotNull
-  @ConvertGroup(from = Default.class, to = GroupsValidation.cozinhaId.class)
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "cozinha_id", nullable = false)
   private Cozinha cozinha;
 
-  @JsonIgnore
   @OneToMany(mappedBy = "restaurante")
   private List<Produto> produtos = new ArrayList<>();
 
-  @JsonIgnore
   @ManyToMany
   @JoinTable(name = "restaurante_forma_pagamento",
           joinColumns = @JoinColumn(name = "restaurante_id"),
           inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
   private List<FormaPagamento> formasPagamento;
 
-  @JsonIgnore
   @Embedded
   private Endereco endereco;
 
-  @JsonIgnore
   @CreationTimestamp
   @Column(name = "data_cadastro", nullable = false)
   private OffsetDateTime dataCadastro;
 
-//  @JsonIgnore
   @UpdateTimestamp
   @Column(name = "data_atualizacao", nullable = false)
   private OffsetDateTime dataAtualizacao;

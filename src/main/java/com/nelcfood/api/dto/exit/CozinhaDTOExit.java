@@ -1,9 +1,9 @@
-package com.nelcfood.api.dto;
+package com.nelcfood.api.dto.exit;
 
 import lombok.Data;
 
 @Data
-public class CozinhaDTO {
+public class CozinhaDTOExit {
   private Long id;
   private String nome;
 }

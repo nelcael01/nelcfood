@@ -1,5 +1,6 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.api.dto.input.RestauranteDTOInput;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
 import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
