@@ -1,6 +1,7 @@
 package com.nelcfood.api.controller;
 
 import com.nelcfood.api.assembler.RestauranteDTOAssembler;
+import com.nelcfood.api.assembler.RestauranteDTODesassembler;
 import com.nelcfood.api.dto.exit.CozinhaDTOExit;
 import com.nelcfood.api.dto.exit.RestauranteDTOExit;
 import com.nelcfood.api.dto.input.CozinhaIdDTOInput;
@@ -26,6 +27,7 @@ public class RestauranteController {
 
   RestauranteService restauranteService;
   RestauranteDTOAssembler restauranteDTOAssembler;
+  RestauranteDTODesassembler restauranteDTODesassembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -42,7 +44,7 @@ public class RestauranteController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public RestauranteDTOExit salvar(@RequestBody @Valid RestauranteDTOInput restaurante) {
-    Restaurante restauranteASerSalvo = paraEntidade(restaurante);
+    Restaurante restauranteASerSalvo = restauranteDTODesassembler.paraEntidade(restaurante);
     try {
       return restauranteDTOAssembler.paraDTO(restauranteService.salvar(restauranteASerSalvo));
     } catch (CozinhaNaoEncontradaException e) {
@@ -62,26 +64,5 @@ public class RestauranteController {
     }
   }
 
-
-  private Restaurante paraEntidade(RestauranteDTOInput restauranteDTOInput) {
-    Cozinha cozinha = Cozinha
-            .builder()
-            .id(restauranteDTOInput.getCozinha().getId())
-            .nome(restauranteDTOInput.getNome())
-            .build();
-
-    return Restaurante
-            .builder()
-            .nome(restauranteDTOInput.getNome())
-            .taxaFrete(restauranteDTOInput.getTaxaFrete())
-            .cozinha(cozinha)
-            .build();
-  }
-
-  private List<Restaurante> paraColecaoDeEntidade(List<RestauranteDTOInput> restaurantesDTOInputs) {
-    return restaurantesDTOInputs.stream()
-            .map(restauranteDTOInput -> paraEntidade(restauranteDTOInput))
-            .collect(Collectors.toList());
-  }
 }
 
