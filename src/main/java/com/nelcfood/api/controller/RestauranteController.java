@@ -1,12 +1,9 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.api.assembler.RestauranteDTOAssembler;
-import com.nelcfood.api.assembler.RestauranteDTODesassembler;
-import com.nelcfood.api.dto.exit.CozinhaDTOExit;
+import com.nelcfood.api.assembler.RestauranteDTOExistAssembler;
+import com.nelcfood.api.assembler.RestauranteDTOInputDesassembler;
 import com.nelcfood.api.dto.exit.RestauranteDTOExit;
-import com.nelcfood.api.dto.input.CozinhaIdDTOInput;
 import com.nelcfood.api.dto.input.RestauranteDTOInput;
-import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -26,8 +22,8 @@ import java.util.stream.Collectors;
 public class RestauranteController {
 
   RestauranteService restauranteService;
-  RestauranteDTOAssembler restauranteDTOAssembler;
-  RestauranteDTODesassembler restauranteDTODesassembler;
+  RestauranteDTOExistAssembler restauranteDTOAssembler;
+  RestauranteDTOInputDesassembler restauranteDTODesassembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
