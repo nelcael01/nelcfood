@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -34,13 +35,4 @@ public class RestauranteService {
     return restauranteRepository.save(restaurante);
   }
 
-  @Transactional
-  public void deletar(Long id) {
-    try {
-      buscar(id);
-      restauranteRepository.deleteById(id);
-    } catch (DataIntegrityViolationException e) {
-      throw new EntidadeEmUsoException("O Restaurante não pode ser excluido por ter relação com alguma outra entidade");
-    }
-  }
 }

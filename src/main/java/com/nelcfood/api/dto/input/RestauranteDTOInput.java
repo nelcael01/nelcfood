@@ -1,15 +1,14 @@
 package com.nelcfood.api.dto.input;
 
-import com.nelcfood.core.validation.GroupsValidation;
+import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
 
+@Data
 public class RestauranteDTOInput {
   @NotBlank
   private String nome;
