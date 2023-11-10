@@ -1,5 +1,6 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.api.assembler.RestauranteDTOAssembler;
 import com.nelcfood.api.dto.exit.CozinhaDTOExit;
 import com.nelcfood.api.dto.exit.RestauranteDTOExit;
 import com.nelcfood.api.dto.input.CozinhaIdDTOInput;
@@ -24,17 +25,18 @@ import java.util.stream.Collectors;
 public class RestauranteController {
 
   RestauranteService restauranteService;
+  RestauranteDTOAssembler restauranteDTOAssembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<RestauranteDTOExit> listar() {
-    return paraColecaoDeDTO(restauranteService.listar());
+    return restauranteDTOAssembler.paraColecaoDeDTO(restauranteService.listar());
   }
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public RestauranteDTOExit buscar(@PathVariable Long id) {
-    return paraDTO(restauranteService.buscar(id));
+    return restauranteDTOAssembler.paraDTO(restauranteService.buscar(id));
   }
 
   @PostMapping
@@ -42,7 +44,7 @@ public class RestauranteController {
   public RestauranteDTOExit salvar(@RequestBody @Valid RestauranteDTOInput restaurante) {
     Restaurante restauranteASerSalvo = paraEntidade(restaurante);
     try {
-      return paraDTO(restauranteService.salvar(restauranteASerSalvo));
+      return restauranteDTOAssembler.paraDTO(restauranteService.salvar(restauranteASerSalvo));
     } catch (CozinhaNaoEncontradaException e) {
       throw new NegocioException(e.getMessage(), e);
     }
@@ -54,36 +56,12 @@ public class RestauranteController {
     Restaurante restauranteBuscado = restauranteService.buscar(id);
     BeanUtils.copyProperties(restaurante, restauranteBuscado, "id");
     try {
-      return paraDTO(restauranteService.salvar(restauranteBuscado));
+      return restauranteDTOAssembler.paraDTO(restauranteService.salvar(restauranteBuscado));
     } catch (CozinhaNaoEncontradaException e) {
       throw new NegocioException(e.getMessage(), e);
     }
   }
 
-
-  private RestauranteDTOExit paraDTO(Restaurante restaurante) {
-    CozinhaDTOExit cozinha = CozinhaDTOExit
-            .builder()
-            .id(restaurante.getCozinha().getId())
-            .nome(restaurante.getCozinha().getNome())
-            .build();
-
-    RestauranteDTOExit restauranteDTO = RestauranteDTOExit
-            .builder()
-            .id(restaurante.getId())
-            .nome(restaurante.getNome())
-            .taxaFrete(restaurante.getTaxaFrete())
-            .cozinha(cozinha)
-            .build();
-
-    return restauranteDTO;
-  }
-
-  private List<RestauranteDTOExit> paraColecaoDeDTO(List<Restaurante> restaurentes) {
-    return restaurentes.stream()
-            .map((restaurante) -> paraDTO(restaurante))
-            .collect(Collectors.toList());
-  }
 
   private Restaurante paraEntidade(RestauranteDTOInput restauranteDTOInput) {
     Cozinha cozinha = Cozinha
