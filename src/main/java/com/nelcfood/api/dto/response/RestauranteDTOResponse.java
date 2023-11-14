@@ -1,4 +1,4 @@
-package com.nelcfood.api.dto.exit;
+package com.nelcfood.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestauranteDTOExit {
+public class RestauranteDTOResponse {
   private Long id;
   private String nome;
   private BigDecimal taxaFrete;
-  private CozinhaDTOExit cozinha;
+  private CozinhaDTOResponse cozinha;
 }

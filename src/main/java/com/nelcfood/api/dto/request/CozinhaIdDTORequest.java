@@ -1,11 +1,11 @@
-package com.nelcfood.api.dto.input;
+package com.nelcfood.api.dto.request;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CozinhaIdDTOInput {
+public class CozinhaIdDTORequest {
 
   @NotNull
   private Long id;

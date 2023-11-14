@@ -1,4 +1,4 @@
-package com.nelcfood.api.dto.exit;
+package com.nelcfood.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CozinhaDTOExit {
+public class CozinhaDTOResponse {
   private Long id;
   private String nome;
 }

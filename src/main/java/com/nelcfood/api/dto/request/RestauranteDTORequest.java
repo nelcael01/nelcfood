@@ -1,4 +1,4 @@
-package com.nelcfood.api.dto.input;
+package com.nelcfood.api.dto.request;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
 @Data
-public class RestauranteDTOInput {
+public class RestauranteDTORequest {
   @NotBlank
   private String nome;
   @NotNull
@@ -17,6 +17,6 @@ public class RestauranteDTOInput {
   private BigDecimal taxaFrete;
   @Valid
   @NotNull
-  private CozinhaIdDTOInput cozinha;
+  private CozinhaIdDTORequest cozinha;
 
 }
