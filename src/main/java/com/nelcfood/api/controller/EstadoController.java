@@ -1,5 +1,9 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.api.assembler.EstadoRequestDisassebler;
+import com.nelcfood.api.assembler.EstadoResponseAssembler;
+import com.nelcfood.api.dto.request.EstadoDTORequest;
+import com.nelcfood.api.dto.response.EstadoDTOResponse;
 import com.nelcfood.model.exception.naoEncontrada.EntidadeNaoEncontradaException;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.entities.Estado;
@@ -17,38 +21,41 @@ import java.util.List;
 @RequestMapping("/estados")
 public class EstadoController {
 
-    EstadoService estadoService;
+  EstadoService estadoService;
+  EstadoResponseAssembler estadoResponseAssembler;
+  EstadoRequestDisassebler estadoRequestDisassebler;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Estado> listar() {
-        return estadoService.listar();
-    }
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public List<EstadoDTOResponse> listar() {
+    return estadoResponseAssembler.tranformarColecaoEmResponse(estadoService.listar());
+  }
 
-    @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Estado buscar(@PathVariable Long id) {
-        return estadoService.buscar(id);
-    }
+  @GetMapping("{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public EstadoDTOResponse buscar(@PathVariable Long id) {
+    return estadoResponseAssembler.transformarEntidadeEmResponse(estadoService.buscar(id));
+  }
 
-    @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Estado atualizar(@RequestBody @Valid Estado estado, @PathVariable Long id) {
-        Estado estadoBuscado = estadoService.buscar(id);
-        BeanUtils.copyProperties(estado, estadoBuscado, "id");
-        return estadoService.salvar(estadoBuscado);
-    }
+  @PutMapping("{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public EstadoDTOResponse atualizar(@RequestBody @Valid EstadoDTORequest estado, @PathVariable Long id) {
+    Estado estadoBuscado = estadoService.buscar(id);
+    estadoRequestDisassebler.copiarRequestParaEntidade(estado, estadoBuscado);
+    return estadoResponseAssembler.transformarEntidadeEmResponse(estadoService.salvar(estadoBuscado));
+  }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Estado salvar(@RequestBody @Valid Estado estado) {
-        return estadoService.salvar(estado);
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public EstadoDTOResponse salvar(@RequestBody @Valid EstadoDTORequest estado) {
+    return estadoResponseAssembler.transformarEntidadeEmResponse(
+            estadoService.salvar(estadoRequestDisassebler.transfomarRequestEmEntidade(estado)));
+  }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Long id) {
-        estadoService.deletar(id);
-    }
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deletar(@PathVariable Long id) {
+    estadoService.deletar(id);
+  }
 
 }

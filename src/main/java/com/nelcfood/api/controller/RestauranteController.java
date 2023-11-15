@@ -1,7 +1,7 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.api.assembler.RestauranteDTOResponseAssembler;
-import com.nelcfood.api.assembler.RestauranteDTORequestDisassembler;
+import com.nelcfood.api.assembler.RestauranteResponseAssembler;
+import com.nelcfood.api.assembler.RestauranteRequestDisassembler;
 import com.nelcfood.api.dto.response.RestauranteDTOResponse;
 import com.nelcfood.api.dto.request.RestauranteDTORequest;
 import com.nelcfood.model.entities.Restaurante;
@@ -21,8 +21,8 @@ import java.util.List;
 public class RestauranteController {
 
   RestauranteService restauranteService;
-  RestauranteDTOResponseAssembler restauranteDTOAssembler;
-  RestauranteDTORequestDisassembler restauranteDTODisassembler;
+  RestauranteResponseAssembler restauranteDTOAssembler;
+  RestauranteRequestDisassembler restauranteDTODisassembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CozinhaDTOResponse {
+public class CidadeDTOResponse {
   private Long id;
   private String nome;
+  private EstadoDTOResponse estado;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CozinhaDTOResponse {
+public class EstadoDTOResponse {
   private Long id;
   private String nome;
 }
