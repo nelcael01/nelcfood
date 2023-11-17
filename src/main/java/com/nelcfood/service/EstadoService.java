@@ -1,8 +1,8 @@
 package com.nelcfood.service;
 
+import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.exception.EntidadeEmUsoException;
 import com.nelcfood.model.exception.naoEncontrada.EstadoNaoEncontradoException;
-import com.nelcfood.model.entities.Estado;
 import com.nelcfood.model.repository.EstadoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -36,6 +36,7 @@ public class EstadoService {
     try {
       buscar(id);
       estadoRepository.deleteById(id);
+      estadoRepository.flush();
     } catch (DataIntegrityViolationException e) {
       throw new EntidadeEmUsoException("O Estado não pode ser excluido por ter relação com alguma outra entidade");
     }

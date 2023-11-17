@@ -35,6 +35,7 @@ public class CozinhaService {
         try {
             buscarPorId(id);
             cozinhaRepository.deleteById(id);
+            cozinhaRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException("Essa Cozinha não pode ser excluida por que tem relação com alguma outra entidade");
         }

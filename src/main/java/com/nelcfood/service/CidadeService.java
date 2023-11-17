@@ -37,6 +37,7 @@ public class CidadeService {
     try {
       buscar(id);
       cidadeRepository.deleteById(id);
+      cidadeRepository.flush();
     } catch (DataIntegrityViolationException e) {
       throw new EntidadeEmUsoException("Essa cidade não pode ser excluida por que tem relação com alguma outra entidade");
     }
