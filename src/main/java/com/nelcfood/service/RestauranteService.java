@@ -30,6 +30,18 @@ public class RestauranteService {
   }
 
   @Transactional
+  public void ativar(Long id) {
+    Restaurante restauranteAtual = buscar(id);
+    restauranteAtual.ativar();
+  }
+
+  @Transactional
+  public void inativar(Long id) {
+    Restaurante restauranteBuscado = buscar(id);
+    restauranteBuscado.inativar();
+  }
+
+  @Transactional
   public Restaurante salvar(Restaurante restaurante) {
     restaurante.setCozinha(cozinhaService.buscarPorId(restaurante.getCozinha().getId()));
     return restauranteRepository.save(restaurante);
