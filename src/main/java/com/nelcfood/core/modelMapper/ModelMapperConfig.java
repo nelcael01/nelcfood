@@ -11,9 +11,12 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
   @Bean
   public ModelMapper modelMapper() {
-    var enderecoToEnderecoModelTypeMap = modelMapper().createTypeMap(Endereco.class, EnderecoDTOResponse.class);
+    var modelMapper = new ModelMapper();
+
+    var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(Endereco.class, EnderecoDTOResponse.class);
     enderecoToEnderecoModelTypeMap.<String>addMapping
             (src -> src.getCidade().getEstado().getNome(), (dest, value) -> dest.getCidade().setEstado(value));
-    return new ModelMapper();
+
+    return modelMapper;
   }
 }

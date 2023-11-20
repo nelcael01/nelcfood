@@ -21,28 +21,28 @@ import java.util.List;
 public class CidadeController {
 
   CidadeService cidadeService;
-  CidadeResponseMontar cidadeResponseAssembler;
-  CidadeRequestDesmontar cidadeResquestDisassembler;
+  CidadeResponseMontar cidadeResponseMontar;
+  CidadeRequestDesmontar cidadeRequestDesmontar;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<CidadeDTOResponse> listar() {
-    return cidadeResponseAssembler.
+    return cidadeResponseMontar.
             transformarColecaoEmResponse(cidadeService.listar());
   }
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public CidadeDTOResponse buscar(@PathVariable Long id) {
-    return cidadeResponseAssembler.transformarEntidadeEmResponse(cidadeService.buscar(id));
+    return cidadeResponseMontar.transformarEntidadeEmResponse(cidadeService.buscar(id));
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public CidadeDTOResponse salvar(@RequestBody @Valid CidadeDTORequest cidade) {
     try {
-      return cidadeResponseAssembler.transformarEntidadeEmResponse
-              (cidadeService.salvar(cidadeResquestDisassembler.transformarRequestEmEntidade(cidade)));
+      return cidadeResponseMontar.transformarEntidadeEmResponse
+              (cidadeService.salvar(cidadeRequestDesmontar.transformarRequestEmEntidade(cidade)));
     } catch (EstadoNaoEncontradoException e) {
       throw new NegocioException(e.getMessage(), e);
     }
@@ -52,9 +52,9 @@ public class CidadeController {
   @ResponseStatus(HttpStatus.OK)
   public CidadeDTOResponse atualizar(@RequestBody @Valid CidadeDTORequest cidade, @PathVariable Long id) {
     Cidade cidadeBuscada = cidadeService.buscar(id);
-    cidadeResquestDisassembler.copiarRequestParaEntidade(cidade, cidadeBuscada);
+    cidadeRequestDesmontar.copiarRequestParaEntidade(cidade, cidadeBuscada);
     try {
-      return cidadeResponseAssembler.transformarEntidadeEmResponse
+      return cidadeResponseMontar.transformarEntidadeEmResponse
               (cidadeService.salvar(cidadeBuscada));
     } catch (EstadoNaoEncontradoException e) {
       throw new NegocioException(e.getMessage(), e);
