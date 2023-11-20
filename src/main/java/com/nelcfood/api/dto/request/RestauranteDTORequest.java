@@ -21,5 +21,5 @@ public class RestauranteDTORequest {
   private CozinhaIdDTORequest cozinha;
   @Valid
   @NotNull
-  private EnderecoDTOResponse endereco;
+  private EnderecoDTORequest endereco;
 }

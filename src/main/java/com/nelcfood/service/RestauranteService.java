@@ -19,6 +19,7 @@ public class RestauranteService {
 
   RestauranteRepository restauranteRepository;
   CozinhaService cozinhaService;
+  CidadeService cidadeService;
 
   public List<Restaurante> listar() {
     return restauranteRepository.findAll();
@@ -44,6 +45,7 @@ public class RestauranteService {
   @Transactional
   public Restaurante salvar(Restaurante restaurante) {
     restaurante.setCozinha(cozinhaService.buscarPorId(restaurante.getCozinha().getId()));
+    restaurante.getEndereco().setCidade(cidadeService.buscar(restaurante.getEndereco().getCidade().getId()));
     return restauranteRepository.save(restaurante);
   }
 

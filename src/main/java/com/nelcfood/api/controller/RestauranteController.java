@@ -6,6 +6,7 @@ import com.nelcfood.api.dto.response.RestauranteDTOResponse;
 import com.nelcfood.api.dto.request.RestauranteDTORequest;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.exception.NegocioException;
+import com.nelcfood.model.exception.naoEncontrada.CidadeNaoEncontradaException;
 import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,7 @@ public class RestauranteController {
     Restaurante restauranteASerSalvo = restauranteDTODisassembler.transformarRequestEmEntidade(restaurante);
     try {
       return restauranteDTOAssembler.tranformarEntidadeParaResponse(restauranteService.salvar(restauranteASerSalvo));
-    } catch (CozinhaNaoEncontradaException e) {
+    } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException  e) {
       throw new NegocioException(e.getMessage(), e);
     }
   }
@@ -55,7 +56,7 @@ public class RestauranteController {
     restauranteDTODisassembler.copiarRequestParaEntidade(restauranteDTORequest, restauranteAtual);
     try {
       return restauranteDTOAssembler.tranformarEntidadeParaResponse(restauranteService.salvar(restauranteAtual));
-    } catch (CozinhaNaoEncontradaException e) {
+    } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
       throw new NegocioException(e.getMessage(), e);
     }
   }
