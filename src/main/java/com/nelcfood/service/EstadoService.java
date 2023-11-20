@@ -38,7 +38,7 @@ public class EstadoService {
       estadoRepository.deleteById(id);
       estadoRepository.flush();
     } catch (DataIntegrityViolationException e) {
-      throw new EntidadeEmUsoException("O Estado não pode ser excluido por ter relação com alguma outra entidade");
+        throw new EntidadeEmUsoException("O Estado não pode ser excluido por ter relação com alguma outra entidade");
     }
   }
 }
