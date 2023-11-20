@@ -1,4 +1,4 @@
-package com.nelcfood.api.assembler;
+package com.nelcfood.api.transformar.response;
 
 import com.nelcfood.api.dto.response.RestauranteDTOResponse;
 import com.nelcfood.model.entities.Restaurante;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RestauranteResponseAssembler {
+public class RestauranteResponseMontar {
 
   @Autowired
   private ModelMapper modelMapper;

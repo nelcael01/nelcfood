@@ -1,4 +1,4 @@
-package com.nelcfood.api.assembler;
+package com.nelcfood.api.transformar.response;
 
 import com.nelcfood.api.dto.response.EstadoDTOResponse;
 import com.nelcfood.model.entities.Estado;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class EstadoResponseAssembler {
+public class EstadoResponseMontar {
 
   @Autowired
   ModelMapper modelMapper;

@@ -1,7 +1,7 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.api.assembler.CidadeResponseAssembler;
-import com.nelcfood.api.assembler.CidadeResquestDisassembler;
+import com.nelcfood.api.transformar.response.CidadeResponseMontar;
+import com.nelcfood.api.transformar.request.CidadeRequestDesmontar;
 import com.nelcfood.api.dto.request.CidadeDTORequest;
 import com.nelcfood.api.dto.response.CidadeDTOResponse;
 import com.nelcfood.model.exception.naoEncontrada.EstadoNaoEncontradoException;
@@ -21,8 +21,8 @@ import java.util.List;
 public class CidadeController {
 
   CidadeService cidadeService;
-  CidadeResponseAssembler cidadeResponseAssembler;
-  CidadeResquestDisassembler cidadeResquestDisassembler;
+  CidadeResponseMontar cidadeResponseAssembler;
+  CidadeRequestDesmontar cidadeResquestDisassembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)

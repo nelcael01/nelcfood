@@ -1,4 +1,4 @@
-package com.nelcfood.api.assembler;
+package com.nelcfood.api.transformar.request;
 
 import com.nelcfood.api.dto.request.CozinhaDTORequest;
 import com.nelcfood.model.entities.Cozinha;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CozinhaRequestDisassembler {
+public class CozinhaRequestDesmontar {
 
   @Autowired
   ModelMapper modelMapper;

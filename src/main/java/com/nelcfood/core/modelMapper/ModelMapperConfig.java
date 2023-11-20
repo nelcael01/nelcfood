@@ -1,6 +1,9 @@
 package com.nelcfood.core.modelMapper;
 
+import com.nelcfood.api.dto.response.EnderecoDTOResponse;
+import com.nelcfood.model.entities.Endereco;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
   @Bean
   public ModelMapper modelMapper() {
+    var enderecoToEnderecoModelTypeMap = modelMapper().createTypeMap(Endereco.class, EnderecoDTOResponse.class);
+    enderecoToEnderecoModelTypeMap.<String>addMapping
+            (src -> src.getCidade().getEstado().getNome(), (dest, value) -> dest.getCidade().setEstado(value));
     return new ModelMapper();
   }
 }

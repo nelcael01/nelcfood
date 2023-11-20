@@ -1,13 +1,12 @@
 package com.nelcfood.api.controller;
 
-import com.nelcfood.api.assembler.CozinhaRequestDisassembler;
-import com.nelcfood.api.assembler.CozinhaResponseAssembler;
+import com.nelcfood.api.transformar.request.CozinhaRequestDesmontar;
+import com.nelcfood.api.transformar.response.CozinhaResponseMontar;
 import com.nelcfood.api.dto.request.CozinhaDTORequest;
 import com.nelcfood.api.dto.response.CozinhaDTOResponse;
 import com.nelcfood.model.entities.Cozinha;
 import com.nelcfood.service.CozinhaService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +19,8 @@ import java.util.List;
 public class CozinhaController {
 
   CozinhaService cozinhaService;
-  CozinhaResponseAssembler cozinhaResponseAssembler;
-  CozinhaRequestDisassembler cozinhaRequestDisassembler;
+  CozinhaResponseMontar cozinhaResponseAssembler;
+  CozinhaRequestDesmontar cozinhaRequestDisassembler;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -29,7 +28,7 @@ public class CozinhaController {
     return cozinhaResponseAssembler.transformarColecaoEmResponse(cozinhaService.listar());
   }
 
-  @GetMapping("{id}")
+  @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public CozinhaDTOResponse buscarPorId(@PathVariable Long id) {
     return cozinhaResponseAssembler.tranformarEntidadeEmResponse(cozinhaService.buscarPorId(id));
