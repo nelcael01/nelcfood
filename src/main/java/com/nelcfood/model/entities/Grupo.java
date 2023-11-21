@@ -11,16 +11,16 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Grupo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  private Long id;
 
-    @Column
-    private String nome;
+  @Column(nullable = false)
+  private String nome;
 
-    @ManyToMany
-    @JoinTable(name = "grupo_permissao",
-            inverseJoinColumns = @JoinColumn(name = "permissao_id"))
-    private List<Permissao> permissoes;
+  @ManyToMany
+  @JoinTable(name = "grupo_permissao",
+          inverseJoinColumns = @JoinColumn(name = "permissao_id"))
+  private List<Permissao> permissoes;
 }

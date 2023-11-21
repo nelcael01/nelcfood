@@ -12,25 +12,25 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  private Long id;
 
-    @Column
-    private String nome;
+  @Column(nullable = false)
+  private String nome;
 
-    @Column
-    private String email;
+  @Column(nullable = false)
+  private String email;
 
-    @Column
-    private String senha;
+  @Column(nullable = false)
+  private String senha;
 
-    @CreationTimestamp
-    @Column(nullable = false)
-    private OffsetDateTime dataCadastro;
+  @CreationTimestamp
+  @Column(nullable = false)
+  private OffsetDateTime dataCadastro;
 
-    @ManyToMany
-    @JoinTable(name = "usuario_grupo", inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-    private List<Grupo> grupos;
+  @ManyToMany
+  @JoinTable(name = "usuario_grupo", inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+  private List<Grupo> grupos;
 }
