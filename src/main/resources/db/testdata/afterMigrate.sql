@@ -147,3 +147,8 @@ values ('Gerente'),
        ('Vendedor'),
        ('Secretária'),
        ('Cadastador');
+
+insert into usuario (nome, email, senha, data_cadastro)
+values ('nelcael', 'nelcaelalvesferreira@gmail.com', '123', utc_timestamp),
+       ('ludmila', 'ludmila204@gmail.com', '123', utc_timestamp),
+       ('magali', 'magalicoutinhoferreira@gmail.com', '123', utc_timestamp);
