@@ -1,16 +1,13 @@
 package com.nelcfood.service;
 
-import com.nelcfood.model.exception.EntidadeEmUsoException;
+import com.nelcfood.model.entities.FormaPagamento;
 import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,6 +15,7 @@ import java.util.List;
 public class RestauranteService {
 
   RestauranteRepository restauranteRepository;
+  FormaPagamentoService formaPagamentoService;
   CozinhaService cozinhaService;
   CidadeService cidadeService;
 
@@ -47,6 +45,22 @@ public class RestauranteService {
     restaurante.setCozinha(cozinhaService.buscarPorId(restaurante.getCozinha().getId()));
     restaurante.getEndereco().setCidade(cidadeService.buscar(restaurante.getEndereco().getCidade().getId()));
     return restauranteRepository.save(restaurante);
+  }
+
+  @Transactional
+  public void desasociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+    Restaurante restauranteBuscado = buscar(restauranteId);
+    FormaPagamento formaPagamentoBuscada = formaPagamentoService.buscar(formaPagamentoId);
+    restauranteBuscado.removerFormaPagamento(formaPagamentoBuscada);
+    salvar(restauranteBuscado);
+  }
+
+  @Transactional
+  public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+    Restaurante restauranteBuscado = buscar(restauranteId);
+    FormaPagamento formaPagamentoBuscada = formaPagamentoService.buscar(formaPagamentoId);
+    restauranteBuscado.adicionarFormaPagamento(formaPagamentoBuscada);
+    salvar(restauranteBuscado);
   }
 
 }

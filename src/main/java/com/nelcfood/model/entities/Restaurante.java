@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -40,7 +42,7 @@ public class Restaurante {
   @JoinTable(name = "restaurante_forma_pagamento",
           joinColumns = @JoinColumn(name = "restaurante_id"),
           inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-  private List<FormaPagamento> formasPagamento;
+  private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
   @Embedded
   private Endereco endereco;
@@ -55,12 +57,19 @@ public class Restaurante {
   @Column(name = "data_atualizacao", nullable = false)
   private OffsetDateTime dataAtualizacao;
 
-  public void ativar(){
+  public void ativar() {
     setAtivo(true);
   }
 
-  public void inativar(){
+  public void inativar() {
     setAtivo(false);
   }
 
+  public void removerFormaPagamento(FormaPagamento formaPagamento) {
+    formasPagamento.remove(formaPagamento);
+  }
+
+  public void adicionarFormaPagamento(FormaPagamento formaPagamento) {
+    formasPagamento.add(formaPagamento);
+  }
 }
