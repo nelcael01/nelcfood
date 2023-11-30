@@ -72,4 +72,5 @@ public class Restaurante {
   public void adicionarFormaPagamento(FormaPagamento formaPagamento) {
     formasPagamento.add(formaPagamento);
   }
+
 }
