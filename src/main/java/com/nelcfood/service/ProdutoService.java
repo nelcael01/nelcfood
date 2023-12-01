@@ -8,6 +8,7 @@ import com.nelcfood.model.repository.ProdutoRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,14 +35,10 @@ public class ProdutoService {
     return produtoEncontrado;
   }
 
+  @Transactional
   public Produto salvar(Produto produto, Long restauranteId) {
     produto.setRestaurante(restauranteService.buscar(restauranteId));
     return produtoRepository.save(produto);
   }
 
-  public Produto atualizar(Produto produto, Long produtoId, Long restauranteId) {
-    Produto produtoEncontrado = buscar(restauranteId, produtoId);
-    modelMapper.map(produto, produtoEncontrado);
-    return produtoRepository.save(produtoEncontrado);
-  }
 }
