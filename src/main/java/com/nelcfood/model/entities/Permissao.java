@@ -14,9 +14,9 @@ public class Permissao {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String nome;
 
-    @Column
+    @Column(nullable = false)
     private String descricao;
 }

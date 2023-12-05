@@ -47,7 +47,11 @@ public class Restaurante {
   @Embedded
   private Endereco endereco;
 
+  @Column(nullable = false)
   private boolean ativo = Boolean.TRUE;
+
+  @Column(nullable = false)
+  private Boolean aberto;
 
   @CreationTimestamp
   @Column(name = "data_cadastro", nullable = false)
@@ -63,6 +67,14 @@ public class Restaurante {
 
   public void inativar() {
     setAtivo(false);
+  }
+
+  public void fechar() {
+    setAberto(false);
+  }
+
+  public void abrir() {
+    setAberto(true);
   }
 
   public void removerFormaPagamento(FormaPagamento formaPagamento) {

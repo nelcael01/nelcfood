@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,5 +33,13 @@ public class Usuario {
 
   @ManyToMany
   @JoinTable(name = "usuario_grupo", inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-  private List<Grupo> grupos;
+  private Set<Grupo> grupos;
+
+  public void associar(Grupo grupo) {
+    grupos.add(grupo);
+  }
+
+  public void desasociar(Grupo grupo) {
+    grupos.remove(grupo);
+  }
 }

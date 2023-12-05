@@ -7,6 +7,7 @@ import com.nelcfood.api.transformar.response.ProdutoResponseMontar;
 import com.nelcfood.model.entities.Produto;
 import com.nelcfood.service.ProdutoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,16 +25,19 @@ public class ProdutoController {
   ProdutoRequestDesmontar produtoRequestDesmontar;
 
   @GetMapping
+  @ResponseStatus(HttpStatus.OK)
   public List<ProdutoDTOResponse> listar(@PathVariable Long restauranteId) {
     return produtoResponseMontar.transformarColecaoEmResponse(service.listar(restauranteId));
   }
 
   @GetMapping("/{produtoId}")
+  @ResponseStatus(HttpStatus.OK)
   public ProdutoDTOResponse buscar(@PathVariable Long produtoId, @PathVariable Long restauranteId) {
     return produtoResponseMontar.transformarEntidadeEmResponse(service.buscar(restauranteId, produtoId));
   }
 
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public ProdutoDTOResponse salvar(@PathVariable Long restauranteId,
                                    @RequestBody @Valid ProdutoDTORequest produtoDTORequest) {
     return produtoResponseMontar.transformarEntidadeEmResponse(
@@ -41,6 +45,7 @@ public class ProdutoController {
   }
 
   @PutMapping("/{produtoId}")
+  @ResponseStatus(HttpStatus.OK)
   public ProdutoDTOResponse atualizar(@RequestBody @Valid ProdutoDTORequest produtoDTORequest,
                                       @PathVariable Long restauranteId, @PathVariable Long produtoId) {
     Produto produtoEncontrado = service.buscar(restauranteId, produtoId);

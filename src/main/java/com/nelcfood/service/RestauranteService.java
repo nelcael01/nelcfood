@@ -65,4 +65,16 @@ public class RestauranteService {
     salvar(restauranteBuscado);
   }
 
+  @Transactional
+  public void abrir(Long id) {
+    Restaurante restauranteAtual = buscar(id);
+    restauranteAtual.abrir();
+  }
+
+  @Transactional
+  public void fechar(Long id) {
+    Restaurante restauranteBuscado = buscar(id);
+    restauranteBuscado.fechar();
+  }
+
 }

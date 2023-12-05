@@ -23,4 +23,10 @@ public class Grupo {
   @JoinTable(name = "grupo_permissao",
           inverseJoinColumns = @JoinColumn(name = "permissao_id"))
   private List<Permissao> permissoes;
+
+  public void associar(Permissao permissao) {
+    permissoes.add(permissao);
+  }
+
+
 }

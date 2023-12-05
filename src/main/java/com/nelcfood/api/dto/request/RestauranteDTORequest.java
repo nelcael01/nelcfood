@@ -1,6 +1,5 @@
 package com.nelcfood.api.dto.request;
 
-import com.nelcfood.api.dto.response.EnderecoDTOResponse;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -22,4 +21,6 @@ public class RestauranteDTORequest {
   @Valid
   @NotNull
   private EnderecoDTORequest endereco;
+  private Boolean ativo;
+
 }

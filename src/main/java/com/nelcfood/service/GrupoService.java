@@ -1,6 +1,7 @@
 package com.nelcfood.service;
 
 import com.nelcfood.model.entities.Grupo;
+import com.nelcfood.model.entities.Permissao;
 import com.nelcfood.model.exception.EntidadeEmUsoException;
 import com.nelcfood.model.exception.naoEncontrada.GrupoNaoEncontradoException;
 import com.nelcfood.model.repository.GrupoRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 public class GrupoService {
 
   GrupoRepository grupoRepository;
+  PermissaoService permissaoService;
 
   public List<Grupo> listar() {
     return grupoRepository.findAll();
@@ -37,4 +39,19 @@ public class GrupoService {
       throw new EntidadeEmUsoException("O Grupo não pode ser excluido por ter relação com alguma outra entidade");
     }
   }
+
+  public List<Permissao> listarPermissoes(Long grupoId) {
+    Grupo grupoBuscado = buscar(grupoId);
+    return grupoBuscado.getPermissoes();
+  }
+
+  public void associar(Long permissaoId, Long grupoId) {
+    Grupo grupoBuscado = buscar(grupoId);
+    Permissao permissaoBuscada = permissaoService.buscar(permissaoId);
+    grupoBuscado.associar(permissaoBuscada);
+    salvar(grupoBuscado);
+  }
+
+
+
 }

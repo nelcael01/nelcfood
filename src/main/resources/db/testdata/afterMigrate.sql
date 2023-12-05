@@ -73,20 +73,20 @@ values (4, 'Campinas', 2);
 insert into cidade (id, nome, estado_id)
 values (5, 'Fortaleza', 3);
 
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id,
-                         endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, ativo)
-values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro',
-        true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, ativo)
-values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, 1, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, ativo)
-values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, 1, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, ativo)
-values (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp, 1, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, ativo)
-values (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp, 1, true);
-insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, ativo)
-values (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp, 1, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto,
+                         endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro)
+values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000',
+        'Centro');
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto)
+values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto)
+values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto)
+values (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto)
+values (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao, ativo, aberto)
+values (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp, true, true);
 
 insert into forma_pagamento (id, descricao)
 values (1, 'Cartão de crédito');
@@ -142,13 +142,27 @@ values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, baco
 insert into produto (nome, descricao, preco, ativo, restaurante_id)
 values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into grupo (nome)
-values ('Gerente'),
-       ('Vendedor'),
-       ('Secretária'),
-       ('Cadastador');
 
-insert into usuario (nome, email, senha, data_cadastro)
-values ('nelcael', 'nelcaelalvesferreira@gmail.com', '123', utc_timestamp),
-       ('ludmila', 'ludmila204@gmail.com', '123', utc_timestamp),
-       ('magali', 'magalicoutinhoferreira@gmail.com', '123', utc_timestamp);
+insert into grupo (id, nome)
+values (1, 'Gerente'),
+       (2, 'Vendedor'),
+       (3, 'Secretária'),
+       (4, 'Cadastrador');
+
+insert into grupo_permissao (grupo_id, permissao_id)
+values (1, 1),
+       (1, 2),
+       (2, 1),
+       (2, 2),
+       (3, 1);
+
+insert into usuario (id, nome, email, senha, data_cadastro)
+values (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
+       (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
+       (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
+       (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);
+
+insert into usuario_grupo (usuario_id, grupo_id)
+values (1, 1),
+       (1, 2),
+       (2, 2);

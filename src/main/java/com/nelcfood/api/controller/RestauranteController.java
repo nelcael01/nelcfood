@@ -43,7 +43,7 @@ public class RestauranteController {
     Restaurante restauranteASerSalvo = restauranteDTODisassembler.transformarRequestEmEntidade(restaurante);
     try {
       return restauranteDTOAssembler.tranformarEntidadeParaResponse(restauranteService.salvar(restauranteASerSalvo));
-    } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException  e) {
+    } catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
       throw new NegocioException(e.getMessage(), e);
     }
   }
@@ -71,6 +71,18 @@ public class RestauranteController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void inativar(@PathVariable Long id) {
     restauranteService.inativar(id);
+  }
+
+  @PutMapping("/{id}/abertura")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void abrir(@PathVariable Long id) {
+    restauranteService.abrir(id);
+  }
+
+  @PutMapping("/{id}/fechamento")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void fechar(@PathVariable Long id) {
+    restauranteService.fechar(id);
   }
 
 }

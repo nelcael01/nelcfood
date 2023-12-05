@@ -1,6 +1,7 @@
 package com.nelcfood.service;
 
 import com.nelcfood.api.dto.request.UsuarioAtualizarSenhaDTORequest;
+import com.nelcfood.model.entities.Grupo;
 import com.nelcfood.model.entities.Usuario;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.UsuarioNaoEncontradoException;
@@ -12,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class UsuarioService {
 
   UsuarioRepository usuarioRepository;
+  GrupoService grupoService;
   //Deve estar no repository. Mas por algum bug, não está funcionando
   EntityManager manager;
 
@@ -54,5 +57,27 @@ public class UsuarioService {
   public void excluir(Long id) {
     usuarioRepository.deleteById(id);
   }
+
+  public Set<Grupo> listarGrupos(Long usuarioId) {
+    Usuario usuarioBuscado = buscar(usuarioId);
+    return usuarioBuscado.getGrupos();
+  }
+
+  @Transactional
+  public void associar(Long usuarioId, Long grupoId) {
+    Usuario usuarioBuscado = buscar(usuarioId);
+    Grupo grupoBuscado = grupoService.buscar(grupoId);
+    usuarioBuscado.associar(grupoBuscado);
+    salvar(usuarioBuscado);
+  }
+
+  @Transactional
+  public void desasociar(Long usuarioId, Long grupoId) {
+    Usuario usuarioBuscado = buscar(usuarioId);
+    Grupo grupoBuscado = grupoService.buscar(grupoId);
+    usuarioBuscado.desasociar(grupoBuscado);
+    salvar(usuarioBuscado);
+  }
+
 
 }

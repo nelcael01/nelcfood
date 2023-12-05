@@ -10,11 +10,12 @@ import java.math.BigDecimal;
 @Data
 public class ProdutoDTORequest {
   @NotBlank
-private String nome;
+  private String nome;
   @NotBlank
   private String descricao;
   @PositiveOrZero
+  @NotNull
   private BigDecimal preco;
   @NotNull
-  private boolean ativo;
+  private Boolean ativo;
 }
