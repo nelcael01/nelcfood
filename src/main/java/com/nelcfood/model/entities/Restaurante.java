@@ -61,6 +61,12 @@ public class Restaurante {
   @Column(name = "data_atualizacao", nullable = false)
   private OffsetDateTime dataAtualizacao;
 
+  @ManyToMany
+  @JoinTable(name = "restaurante_usuario_responsavel",
+          joinColumns = @JoinColumn(name = "restaurante_id"),
+          inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+  private Set<Usuario> usuarios = new HashSet<>();
+
   public void ativar() {
     setAtivo(true);
   }
@@ -85,4 +91,11 @@ public class Restaurante {
     formasPagamento.add(formaPagamento);
   }
 
+  public void associarUsuario(Usuario usuario) {
+    usuarios.add(usuario);
+  }
+
+  public void desasociarUsuario(Usuario usuario) {
+    usuarios.remove(usuario);
+  }
 }

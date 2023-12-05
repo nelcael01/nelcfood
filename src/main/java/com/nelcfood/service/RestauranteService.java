@@ -2,6 +2,7 @@ package com.nelcfood.service;
 
 import com.nelcfood.model.entities.FormaPagamento;
 import com.nelcfood.model.entities.Produto;
+import com.nelcfood.model.entities.Usuario;
 import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.repository.RestauranteRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class RestauranteService {
   FormaPagamentoService formaPagamentoService;
   CozinhaService cozinhaService;
   CidadeService cidadeService;
+  UsuarioService usuarioService;
 
   public List<Restaurante> listar() {
     return restauranteRepository.findAll();
@@ -75,6 +78,27 @@ public class RestauranteService {
   public void fechar(Long id) {
     Restaurante restauranteBuscado = buscar(id);
     restauranteBuscado.fechar();
+  }
+
+  public Set<Usuario> listarUsuarios(Long restauranteId) {
+    Restaurante restauranteBuscado = buscar(restauranteId);
+    return restauranteBuscado.getUsuarios();
+  }
+
+  @Transactional
+  public void associarUsuario(Long restauranteId, Long usuarioId) {
+    Restaurante restauranteBuscado = buscar(restauranteId);
+    Usuario usuarioBuscado = usuarioService.buscar(usuarioId);
+    restauranteBuscado.associarUsuario(usuarioBuscado);
+    salvar(restauranteBuscado);
+  }
+
+  @Transactional
+  public void desasociarUsuario(Long restauranteId, Long usuarioId) {
+    Restaurante restauranteBuscado = buscar(restauranteId);
+    Usuario usuarioBuscado = usuarioService.buscar(usuarioId);
+    restauranteBuscado.desasociarUsuario(usuarioBuscado);
+    salvar(restauranteBuscado);
   }
 
 }
