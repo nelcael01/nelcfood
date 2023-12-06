@@ -10,7 +10,6 @@ import com.nelcfood.api.transformar.response.UsuarioResponseMontar;
 import com.nelcfood.model.entities.Usuario;
 import com.nelcfood.service.UsuarioService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-
+@AllArgsConstructor
 public class UsuarioController {
 
   UsuarioService service;
@@ -30,8 +29,8 @@ public class UsuarioController {
 
   UsuarioSemSenhaRequestDesmontar usuarioSemSenhaRequestDesmontar;
 
-  @ResponseStatus(HttpStatus.OK)
   @GetMapping
+  @ResponseStatus(HttpStatus.OK)
   public List<UsuarioDTOResponse> listar() {
     return usuarioResponseMontar.transformarColecaoEmResponse(service.listar());
   }
@@ -39,6 +38,7 @@ public class UsuarioController {
   @ResponseStatus(HttpStatus.OK)
   @GetMapping("/{id}")
   public UsuarioDTOResponse buscar(@PathVariable Long id) {
+    System.out.println("SERVIDOOOOO" + service.buscar(id));
     return usuarioResponseMontar.transformarEntidadeEmResponse(service.buscar(id));
   }
 

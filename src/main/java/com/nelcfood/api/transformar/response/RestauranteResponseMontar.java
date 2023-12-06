@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class RestauranteResponseMontar {
     return modelMapper.map(restaurante, RestauranteDTOResponse.class);
   }
 
-  public List<RestauranteDTOResponse> transformarColecaoDeEntidadeparaColecaoDeResponse(List<Restaurante> restaurentes) {
+  public List<RestauranteDTOResponse> transformarColecaoDeEntidadeparaColecaoDeResponse(Collection<Restaurante> restaurentes) {
     return restaurentes.stream()
             .map((restaurante) -> tranformarEntidadeParaResponse(restaurante))
             .collect(Collectors.toList());

@@ -40,9 +40,19 @@ public class RestauranteService {
   }
 
   @Transactional
+  public void ativar(List<Long> restauranteIds) {
+    restauranteIds.forEach(this::ativar);
+  }
+
+  @Transactional
   public void inativar(Long id) {
     Restaurante restauranteBuscado = buscar(id);
     restauranteBuscado.inativar();
+  }
+
+  @Transactional
+  public void inativar(List<Long> restauranteIds) {
+    restauranteIds.forEach(this::inativar);
   }
 
   @Transactional
