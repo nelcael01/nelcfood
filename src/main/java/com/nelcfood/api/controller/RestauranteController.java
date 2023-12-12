@@ -8,6 +8,7 @@ import com.nelcfood.model.entities.Restaurante;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.CidadeNaoEncontradaException;
 import com.nelcfood.model.exception.naoEncontrada.CozinhaNaoEncontradaException;
+import com.nelcfood.model.exception.naoEncontrada.RestauranteNaoEncontradoException;
 import com.nelcfood.service.RestauranteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -82,7 +83,11 @@ public class RestauranteController {
   @DeleteMapping("/inativacoes")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void inativarMultiplos(@RequestBody List<Long> restauranteIds) {
-    restauranteService.inativar(restauranteIds);
+    try {
+      restauranteService.inativar(restauranteIds);
+    } catch (RestauranteNaoEncontradoException e) {
+      throw new NegocioException(e.getMessage(), e);
+    }
   }
 
   @PutMapping("/{id}/abertura")

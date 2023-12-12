@@ -49,6 +49,7 @@ public class Pedido {
     private Endereco enderecoEntrega;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
     @ManyToOne
