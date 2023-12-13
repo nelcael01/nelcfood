@@ -91,6 +91,14 @@ public class Restaurante {
     formasPagamento.add(formaPagamento);
   }
 
+  public boolean aceitaFormaPagamento(FormaPagamento formaPagamento) {
+    return getFormasPagamento().contains(formaPagamento);
+  }
+
+  public boolean naoAceitaFormaPagamento(FormaPagamento formaPagamento) {
+    return !aceitaFormaPagamento(formaPagamento);
+  }
+
   public void associarUsuario(Usuario usuario) {
     usuarios.add(usuario);
   }
