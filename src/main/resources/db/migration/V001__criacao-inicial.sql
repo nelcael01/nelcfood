@@ -135,7 +135,7 @@ create table usuario_grupo
 
 create table pedido
 (
-    id                   bigint         not null,
+    id                   bigint         not null auto_increment,
     sub_total            decimal(10, 2) not null,
     taxa_frete           decimal(10, 2) not null,
     valor_total          decimal(10, 2) not null,
@@ -159,7 +159,7 @@ create table pedido
 
 create table item_pedido
 (
-    id             bigint not null,
+    id             bigint not null auto_increment,
     quantidade     int,
     preco_unitario decimal(10, 2),
     preco_total    decimal(10, 2),

@@ -1,11 +1,13 @@
 package com.nelcfood.service;
 
 import com.nelcfood.model.entities.*;
+import com.nelcfood.model.entities.enuns.StatusPedido;
 import com.nelcfood.model.exception.NegocioException;
 import com.nelcfood.model.exception.naoEncontrada.PedidoNaoEncontradoException;
 import com.nelcfood.model.repository.PedidoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class PedidoService {
     return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException());
   }
 
+  @Transactional
   public Pedido salvar(Pedido pedido) {
     validarPedido(pedido);
     validarItens(pedido);
@@ -35,6 +38,24 @@ public class PedidoService {
     pedido.calcularValorTotal();
 
     return pedidoRepository.save(pedido);
+  }
+
+  @Transactional
+  public void confimar(Long id) {
+    Pedido pedidoBuscado = buscar(id);
+    pedidoBuscado.confirmacao();
+  }
+
+  @Transactional
+  public void entregar(Long id) {
+    Pedido pedidoBuscado = buscar(id);
+    pedidoBuscado.entrega();
+  }
+
+  @Transactional
+  public void cancelar(Long id) {
+    Pedido pedidoBuscado = buscar(id);
+    pedidoBuscado.cancelamento();
   }
 
   private void validarPedido(Pedido pedido) {

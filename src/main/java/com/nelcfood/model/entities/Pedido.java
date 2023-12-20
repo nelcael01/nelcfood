@@ -1,6 +1,7 @@
 package com.nelcfood.model.entities;
 
 import com.nelcfood.model.entities.enuns.StatusPedido;
+import com.nelcfood.model.exception.NegocioException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,7 +51,7 @@ public class Pedido {
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private StatusPedido status;
+  private StatusPedido status = StatusPedido.CRIADO;
 
   @ManyToOne
   @JoinColumn(name = "cliente_id", nullable = false)
@@ -63,6 +64,28 @@ public class Pedido {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "forma_pagamento_id", nullable = false)
   private FormaPagamento formaPagamento;
+
+  public void confirmacao() {
+    setStatus(StatusPedido.CONFIRMADO);
+    setDataConfirmacao(OffsetDateTime.now());
+  }
+
+  public void entrega() {
+    setStatus(StatusPedido.ENTREGUE);
+    setDataEntrega(OffsetDateTime.now());
+  }
+
+  public void cancelamento() {
+    setStatus(StatusPedido.CANCELADO);
+    setDataCancelamento(OffsetDateTime.now());
+  }
+
+  private void setStatus(StatusPedido novoStatus) {
+    if (getStatus().naoPodeAlterarPara(novoStatus)) {
+      throw new NegocioException(String.format("O status do pedido %d não pode ser alterado de %s para %s", getId(), getStatus(), novoStatus));
+    }
+    this.status = novoStatus;
+  }
 
   public void calcularValorTotal() {
     getItens().forEach(ItemPedido::calcularPrecoTotal);
