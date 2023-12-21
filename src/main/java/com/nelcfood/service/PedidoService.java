@@ -25,8 +25,8 @@ public class PedidoService {
     return pedidoRepository.findAll();
   }
 
-  public Pedido buscar(Long id) {
-    return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNaoEncontradoException());
+  public Pedido buscar(String codigo) {
+    return pedidoRepository.findByCodigo(codigo).orElseThrow(() -> new PedidoNaoEncontradoException());
   }
 
   @Transactional
@@ -41,20 +41,20 @@ public class PedidoService {
   }
 
   @Transactional
-  public void confimar(Long id) {
-    Pedido pedidoBuscado = buscar(id);
+  public void confimar(String codigo) {
+    Pedido pedidoBuscado = buscar(codigo);
     pedidoBuscado.confirmacao();
   }
 
   @Transactional
-  public void entregar(Long id) {
-    Pedido pedidoBuscado = buscar(id);
+  public void entregar(String codigo) {
+    Pedido pedidoBuscado = buscar(codigo);
     pedidoBuscado.entrega();
   }
 
   @Transactional
-  public void cancelar(Long id) {
-    Pedido pedidoBuscado = buscar(id);
+  public void cancelar(String codigo) {
+    Pedido pedidoBuscado = buscar(codigo);
     pedidoBuscado.cancelamento();
   }
 

@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 
 @Data
 public class PedidoResumoDTOResponse {
-  private Long id;
+  private String codigo;
   private BigDecimal subTotal;
   private BigDecimal taxaFrete;
   private BigDecimal valorTotal;

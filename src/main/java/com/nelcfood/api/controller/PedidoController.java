@@ -24,11 +24,9 @@ import java.util.List;
 public class PedidoController {
 
   PedidoService pedidoService;
-
   PedidoResponseMontar pedidoResponseMontar;
   PedidoResumoResponseMontar pedidoResumoResponseMontar;
   PedidoResumoRequestDesmontar pedidoResumoRequestDesmontar;
-
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -36,10 +34,10 @@ public class PedidoController {
     return pedidoResumoResponseMontar.transformarEntidadeEmColecao(pedidoService.listar());
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/{codigo}")
   @ResponseStatus(HttpStatus.OK)
-  public PedidoDTOResponse buscar(@PathVariable Long id) {
-    return pedidoResponseMontar.transformarEntidadeEmResponse(pedidoService.buscar(id));
+  public PedidoDTOResponse buscar(@PathVariable String codigo) {
+    return pedidoResponseMontar.transformarEntidadeEmResponse(pedidoService.buscar(codigo));
   }
 
   @PostMapping
@@ -55,21 +53,21 @@ public class PedidoController {
     }
   }
 
-  @PutMapping("/{id}/confirmacao")
+  @PutMapping("/{codigo}/confirmacao")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void confirmar(@PathVariable Long id) {
-    pedidoService.confimar(id);
+  public void confirmar(@PathVariable String codigo) {
+    pedidoService.confimar(codigo);
   }
 
-  @PutMapping("/{id}/cancelamento")
+  @PutMapping("/{codigo}/cancelamento")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void cancelar(@PathVariable Long id) {
-    pedidoService.cancelar(id);
+  public void cancelar(@PathVariable String codigo) {
+    pedidoService.cancelar(codigo);
   }
 
-  @PutMapping("/{id}/entrega")
+  @PutMapping("/{codigo}/entrega")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void entregar(@PathVariable Long id) {
-    pedidoService.entregar(id);
+  public void entregar(@PathVariable String codigo) {
+    pedidoService.entregar(codigo);
   }
 }
