@@ -1,5 +1,7 @@
 package com.nelcfood.api.controller;
 
+import com.nelcfood.api.dto.response.RestauranteListagemDTOResponse;
+import com.nelcfood.api.transformar.response.RestauranteListagemResponseMontar;
 import com.nelcfood.api.transformar.response.RestauranteResponseMontar;
 import com.nelcfood.api.transformar.request.RestauranteRequestDesmontar;
 import com.nelcfood.api.dto.response.RestauranteDTOResponse;
@@ -25,11 +27,12 @@ public class RestauranteController {
   RestauranteService restauranteService;
   RestauranteResponseMontar restauranteDTOAssembler;
   RestauranteRequestDesmontar restauranteDTODisassembler;
+  RestauranteListagemResponseMontar restauranteListagemResponseMontar;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<RestauranteDTOResponse> listar() {
-    return restauranteDTOAssembler.transformarColecaoDeEntidadeparaColecaoDeResponse(restauranteService.listar());
+  public List<RestauranteListagemDTOResponse> listar() {
+    return restauranteListagemResponseMontar.transformarColecaoDeEntidadeparaColecaoDeResponse(restauranteService.listar());
   }
 
   @GetMapping("/{id}")
@@ -86,7 +89,8 @@ public class RestauranteController {
     try {
       restauranteService.inativar(restauranteIds);
     } catch (RestauranteNaoEncontradoException e) {
-      throw new NegocioException(e.getMessage(), e);
+      throw new NegocioException(e.getMessage(), e
+      );
     }
   }
 
